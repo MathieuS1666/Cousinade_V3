@@ -106,13 +106,22 @@ function afficherPlats() {
     ];
 
     cats.forEach(([elemId, key, icon]) => {
-        // On filtre les plats par catégorie, en ignorant les entrées "vides" (null)
-        const list = plats.filter(p => p.categorie === key && p.plat && p.plat !== "null");
-        const totalCat = list.reduce((s, p) => s + parseInt(p.parts || 0), 0);
+        // 1. On filtre les plats qui appartiennent à cette catégorie ET qui ne sont pas vides
+        const list = plats.filter(p => p.categorie === key && p.plat && p.plat !== "null" && p.plat !== "");
         
+        // 2. CALCUL DU TOTAL DE LA CATÉGORIE (Correction ici)
+        // On utilise parseFloat pour transformer le texte en nombre et on ajoute 0 si c'est vide
+        const totalCat = list.reduce((s, p) => s + (parseFloat(p.parts) || 0), 0);
+        
+        // 3. Mise à jour du badge HTML (ex: total-apero)
         const badge = document.getElementById(`total-${key}`);
-        if(badge) badge.innerText = totalCat;
+        if(badge) {
+            badge.innerText = totalCat;
+            // Optionnel : on cache le badge s'il est à 0 pour épurer
+            badge.style.display = totalCat > 0 ? "inline" : "none";
+        }
 
+        // 4. Génération du HTML pour la liste
         document.getElementById(elemId).innerHTML = list.map(p => `
             <div class="plat-item" style="border-left-color: var(--${key})">
                 <span>${icon} <strong>${p.nom}</strong><br>${p.plat} (${p.parts}p)</span>
