@@ -253,22 +253,35 @@ function afficherLivreDor() {
 
 function verifierSiDejaInscrit() {
     const inscrit = plats.find(p => p.ownerId === browserId);
-    const box = document.getElementById('boxConvives');
+    const boxConvives = document.getElementById('boxConvives');
+    // On cible la div qui contient les checkbox Midi/Soir
+    const boxRepas = document.querySelector('.repas-selection'); 
     const msgOk = document.getElementById('msgConvivesOk');
     const inputNom = document.getElementById('nomPersonne');
     
     if (inscrit) {
-        box.style.display = "none";
+        // Masquer les champs de présence globale
+        if(boxConvives) boxConvives.style.display = "none";
+        if(boxRepas) boxRepas.style.display = "none";
+        
         msgOk.style.display = "block";
         inputNom.value = inscrit.nom;
         inputNom.readOnly = true;
+        
+        // Optionnel : on peut aussi masquer le champ allergie s'il est déjà rempli
+        const champAllergie = document.getElementById('allergieSaisie');
+        if(inscrit.allergies && champAllergie) {
+             champAllergie.parentElement.style.display = "none";
+        }
     } else {
-        box.style.display = "block";
+        // Afficher les champs pour une première inscription
+        if(boxConvives) boxConvives.style.display = "block";
+        if(boxRepas) boxRepas.style.display = "flex";
+        
         msgOk.style.display = "none";
         inputNom.readOnly = false;
     }
 }
-
 function annulerEdition() {
     document.getElementById('nouveauPlat').value = "";
     document.getElementById('nombreParts').value = "";
