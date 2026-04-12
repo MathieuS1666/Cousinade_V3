@@ -154,25 +154,31 @@
 </div>
 
 <div class="container liste-presents" style="
-    background-color: rgba(255, 255, 224, 0.7); 
+    background-color: rgba(255, 255, 224, 0.5); /* Cadre global plus transparent */
     border-radius: 15px; 
     box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
     padding: 20px; 
     margin-top: 30px;">
     
-    <h2 style="text-align:center; color: #660503; margin-top:0;">👥 Liste des Présents</h2>
+    <div style="background-color: rgba(255, 255, 224, 0.7); padding: 10px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="text-align:center; color: #660503; margin:0;">👥 Liste des Présents</h2>
+    </div>
+
     <div id="listePresents"></div>
 </div>
 
 <div class="container livre-dor-section" style="
-    background-color: rgba(255, 255, 224, 0.7); 
+    background-color: rgba(255, 255, 224, 0.5); /* Cadre global plus transparent */
     border-radius: 15px; 
     box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
     padding: 20px; 
     margin-top: 30px; 
     margin-bottom: 50px;">
     
-    <h2 style="text-align:center; color: #660503; margin-top:0;">📖 Le Livre d'Or</h2>
+    <div style="background-color: rgba(255, 255, 224, 0.7); padding: 10px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="text-align:center; color: #660503; margin:0;">📖 Le Livre d'Or</h2>
+    </div>
+
     <div id="livreDor" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; text-align: left;"></div>
 </div>
 
