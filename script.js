@@ -283,7 +283,21 @@ function mettreAJourCompteARebours() {
     const jours = Math.floor(diff / (1000 * 60 * 60 * 24));
     document.getElementById("countdown").innerText = diff > 0 ? `J-${jours} avant la cousinade !` : "C'est le jour J ! 🎉";
 }
-
+/**
+ * FONCTION ADMIN
+ * Permet d'ouvrir le tableur après saisie d'un mot de passe
+ */
+function ouvrirAdmin() {
+    const mdp = prompt("Veuillez saisir le mot de passe administrateur :");
+    
+    // Tu peux changer "Bob2026" par le mot de passe de ton choix
+    if (mdp === "1234") {
+        const urlSheet = "https://docs.google.com/spreadsheets/d/1F-Bx57myPupGgfFNAN79Pn8pQNON3aWg1pmF0jLFVNI/edit?usp=sharing"; 
+        window.open(urlSheet, '_blank');
+    } else if (mdp !== null) {
+        alert("Mot de passe incorrect.");
+    }
+}
 // Lancement
 mettreAJourCompteARebours();
 chargerDonnees();
