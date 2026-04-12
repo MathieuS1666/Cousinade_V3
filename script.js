@@ -3,7 +3,7 @@
  * Ce fichier gère l'affichage, les calculs et les envois vers Google Sheets.
  */
 
-const API_URL = "https://script.google.com/macros/s/AKfycbwB841Je6gB5wEAeWr6eHJLw2JwEUFelOR6GGi0Qh6Hfm6wzXu-Y7DOlTikKyiFY_vV/exec"; 
+const API_URL = "https://script.google.com/macros/s/AKfycbythwaCAHKuehSFtxu8Dzo4ZIfdAHw_pAGpw12bRd193G1rUxnfbV2BC804sL2jxsFM/exec"; 
 const DATE_COUSINADE = new Date("2026-05-09T12:00:00");
 
 // Variables globales pour stocker les données chargées
