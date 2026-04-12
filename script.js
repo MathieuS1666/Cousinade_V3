@@ -1,19 +1,26 @@
 /**
- * COUSINADE BOB 2026 - LOGIQUE FRONTEND (Version Normalisée)
+ * COUSINADE BOB 2026 - LOGIQUE FRONTEND
+ * Ce fichier gère l'affichage, les calculs et les envois vers Google Sheets.
  */
 
-const API_URL = "https://script.google.com/macros/s/AKfycbwB841Je6gB5wEAeWr6eHJLw2JwEUFelOR6GGi0Qh6Hfm6wzXu-Y7DOlTikKyiFY_vV/exec"; // <--- REMPLACE PAR TON URL DE DÉPLOIEMENT
+const API_URL = "https://script.google.com/macros/s/AKfycbwB841Je6gB5wEAeWr6eHJLw2JwEUFelOR6GGi0Qh6Hfm6wzXu-Y7DOlTikKyiFY_vV/exec"; 
 const DATE_COUSINADE = new Date("2026-05-09T12:00:00");
 
+// Variables globales pour stocker les données chargées
 let plats = [];
 let commentaires = [];
 let idEnEditionModale = null;
 let platEnEditionModale = null;
+
+// Identifiant unique du navigateur pour reconnaître qui est qui
 let browserId = localStorage.getItem('cousinade_id') || ('user_' + Math.random().toString(36).substr(2, 9));
 localStorage.setItem('cousinade_id', browserId);
 
-// --- 1. CHARGEMENT ---
+// --- 1. CHARGEMENT DES DONNÉES ---
 
+/**
+ * Récupère les données depuis Google Apps Script
+ */
 async function chargerDonnees() {
     try {
         const [resPlats, resComs] = await Promise.all([
@@ -30,6 +37,9 @@ async function chargerDonnees() {
     }
 }
 
+/**
+ * Lance toutes les fonctions de rendu visuel
+ */
 function renderAll() {
     afficherPlats();
     afficherLivreDor();
@@ -37,14 +47,17 @@ function renderAll() {
     verifierSiDejaInscrit();
 }
 
-// --- 2. AFFICHAGE ET STATS ---
+// --- 2. AFFICHAGE ET STATISTIQUES ---
 
+/**
+ * Calcule les totaux pour le bandeau d'info (Midi, Soir, Parts)
+ */
 function calculerStatsGlobales() {
     let totalMidi = 0, totalSoir = 0, totalConv = 0, totalParts = 0;
-    const vus = new Set();
+    const vus = new Set(); // Pour ne compter qu'une fois chaque participant
 
     plats.forEach(p => {
-        // Stats de présence (calculées une seule fois par utilisateur)
+        // Stats de présence (liées au Participant)
         if (!vus.has(p.ownerId)) {
             const nb = parseFloat(p.convives || 0);
             if (p.midi === true || p.midi === "true") totalMidi += nb;
@@ -53,19 +66,17 @@ function calculerStatsGlobales() {
             vus.add(p.ownerId);
         }
         // Stats de nourriture (tous les plats comptent)
-        if (p.plat !== "Présence uniquement") {
+        if (p.plat && p.plat !== "null") {
             totalParts += parseInt(p.parts || 0);
         }
     });
 
-    // Mise à jour des éléments HTML existants
+    // Mise à jour des badges dans le bandeau header
     if(document.getElementById('stat-midi')) document.getElementById('stat-midi').innerText = totalMidi;
     if(document.getElementById('stat-soir')) document.getElementById('stat-soir').innerText = totalSoir;
     if(document.getElementById('stat-total')) document.getElementById('stat-total').innerText = totalParts;
-    // Note: 'stat-convives' n'était pas dans ton HTML initial mais utile au cas où
-    if(document.getElementById('stat-convives')) document.getElementById('stat-convives').innerText = totalConv;
 
-    // Rendu Liste des Présents
+    // Rendu de la liste des badges de présence (en bas de page)
     const unique = {};
     plats.forEach(p => { if (!unique[p.ownerId]) unique[p.ownerId] = p; });
     
@@ -82,6 +93,9 @@ function calculerStatsGlobales() {
     }).join('');
 }
 
+/**
+ * Affiche les plats dans les 5 colonnes correspondantes
+ */
 function afficherPlats() {
     const cats = [
         ['aperoListe', 'apero', '🍹'],
@@ -92,10 +106,10 @@ function afficherPlats() {
     ];
 
     cats.forEach(([elemId, key, icon]) => {
-        const list = plats.filter(p => p.categorie === key && p.plat !== "Présence uniquement");
+        // On filtre les plats par catégorie, en ignorant les entrées "vides" (null)
+        const list = plats.filter(p => p.categorie === key && p.plat && p.plat !== "null");
         const totalCat = list.reduce((s, p) => s + parseInt(p.parts || 0), 0);
         
-        // Mise à jour badge total catégorie
         const badge = document.getElementById(`total-${key}`);
         if(badge) badge.innerText = totalCat;
 
@@ -110,7 +124,7 @@ function afficherPlats() {
             </div>`).join('') || '<div style="color:gray; font-size:0.8em; padding:5px;">Rien pour le moment</div>';
     });
 
-    // Allergies
+    // Gestion de l'affichage des allergies (doublons filtrés)
     const vusAll = new Set();
     const listeAllergies = plats.filter(p => {
         if (p.allergies && p.allergies.trim() !== "" && !vusAll.has(p.ownerId)) {
@@ -124,10 +138,16 @@ function afficherPlats() {
         </div>`).join('') || '<div style="color:gray; font-size:0.8em; padding:5px;">Aucune allergie</div>';
 }
 
-// --- 3. ACTIONS ---
+// --- 3. ACTIONS PRINCIPALES (ENVOIS) ---
 
+/**
+ * Envoie une inscription ou un nouveau plat
+ */
 async function ajouterPlat() {
     const btn = document.getElementById('btnAjouter');
+    const platSaisi = document.getElementById('nouveauPlat').value.trim();
+    
+    // On prépare l'objet pour le Backend
     const fields = {
         action: "insert",
         browserId: browserId,
@@ -135,7 +155,8 @@ async function ajouterPlat() {
         convives: document.getElementById('nbConvives').value || 0,
         midi: document.getElementById('checkMidi').checked,
         soir: document.getElementById('checkSoir').checked,
-        plat: document.getElementById('nouveauPlat').value.trim() || "Présence uniquement",
+        // Si vide, on envoie explicitement "null" pour ne pas créer de ligne dans la feuille Plats
+        plat: platSaisi || "null", 
         parts: document.getElementById('nombreParts').value || 0,
         categorie: document.querySelector('input[name="categoriePlat"]:checked').value,
         allergies: document.getElementById('allergieSaisie').value.trim()
@@ -154,13 +175,16 @@ async function ajouterPlat() {
     finally { btn.disabled = false; btn.innerText = "Valider"; }
 }
 
+/**
+ * Supprime un plat (demande confirmation)
+ */
 async function supprimerPlat(id) {
     if(!confirm("Supprimer ce plat ?")) return;
     await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "delete", rowId: id, browserId: browserId }) });
     await chargerDonnees();
 }
 
-// --- 4. MODALES (Identiques à ton code original) ---
+// --- 4. GESTION DES MODALES ---
 
 function ouvrirModifPlat(id) {
     const p = plats.find(x => x.id === id);
@@ -227,11 +251,13 @@ async function validerModifConvives() {
 async function ajouterCommentaireDirect() {
     const txt = document.getElementById('commentaireSaisieSeule').value.trim();
     if(!txt) return;
+
+    // IMPORTANT : On envoie "Message Livre d'Or" pour que le Backend n'écrase pas le profil Participant
     const data = {
         action: "insert",
         browserId: browserId,
         nom: document.getElementById('nomPersonne').value || "Anonyme",
-        plat: "Message Livre d'Or", // Marqueur pour le script Google
+        plat: "Message Livre d'Or", 
         commentaire: txt
     };
     await fetch(API_URL, { method: 'POST', body: JSON.stringify(data) });
@@ -242,25 +268,28 @@ async function ajouterCommentaireDirect() {
 function afficherLivreDor() {
     const container = document.getElementById('livreDor');
     container.innerHTML = commentaires.map(m => `
-        <div class="com-card" style="background:white; padding:15px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1); position:relative;">
+        <div class="com-card" style="background:white; padding:15px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1); position:relative; margin-bottom:10px;">
             <p style="font-style:italic; margin-bottom:5px;">"${m.commentaire}"</p>
             <p style="text-align:right; font-weight:bold; color:var(--plat); margin:0;">— ${m.nom}</p>
         </div>
     `).reverse().join('');
 }
 
-// --- 6. UTILITAIRES ---
+// --- 6. UTILITAIRES ET LOGIQUE D'INTERFACE ---
 
+/**
+ * Masque les champs logistiques si le cousin est déjà reconnu
+ */
 function verifierSiDejaInscrit() {
     const inscrit = plats.find(p => p.ownerId === browserId);
     const boxConvives = document.getElementById('boxConvives');
-    // On cible la div qui contient les checkbox Midi/Soir
     const boxRepas = document.querySelector('.repas-selection'); 
     const msgOk = document.getElementById('msgConvivesOk');
     const inputNom = document.getElementById('nomPersonne');
+    const champAllergie = document.getElementById('allergieSaisie');
     
     if (inscrit) {
-        // Masquer les champs de présence globale
+        // Masquer la présence (Midi/Soir) et le nombre
         if(boxConvives) boxConvives.style.display = "none";
         if(boxRepas) boxRepas.style.display = "none";
         
@@ -268,24 +297,23 @@ function verifierSiDejaInscrit() {
         inputNom.value = inscrit.nom;
         inputNom.readOnly = true;
         
-        // Optionnel : on peut aussi masquer le champ allergie s'il est déjà rempli
-        const champAllergie = document.getElementById('allergieSaisie');
+        // Masquer le champ allergie si déjà rempli pour épurer le formulaire
         if(inscrit.allergies && champAllergie) {
              champAllergie.parentElement.style.display = "none";
         }
     } else {
-        // Afficher les champs pour une première inscription
+        // Mode "Première visite" : On montre tout
         if(boxConvives) boxConvives.style.display = "block";
         if(boxRepas) boxRepas.style.display = "flex";
-        
         msgOk.style.display = "none";
         inputNom.readOnly = false;
+        if(champAllergie) champAllergie.parentElement.style.display = "block";
     }
 }
+
 function annulerEdition() {
     document.getElementById('nouveauPlat').value = "";
     document.getElementById('nombreParts').value = "";
-    document.getElementById('allergieSaisie').value = "";
 }
 
 function fermerModale() { document.getElementById('modalEdition').style.display = "none"; }
@@ -296,14 +324,12 @@ function mettreAJourCompteARebours() {
     const jours = Math.floor(diff / (1000 * 60 * 60 * 24));
     document.getElementById("countdown").innerText = diff > 0 ? `J-${jours} avant la cousinade !` : "C'est le jour J ! 🎉";
 }
+
 /**
- * FONCTION ADMIN
- * Permet d'ouvrir le tableur après saisie d'un mot de passe
+ * Fonction Admin sécurisée
  */
 function ouvrirAdmin() {
     const mdp = prompt("Veuillez saisir le mot de passe administrateur :");
-    
-    // Tu peux changer "Bob2026" par le mot de passe de ton choix
     if (mdp === "1234") {
         const urlSheet = "https://docs.google.com/spreadsheets/d/1F-Bx57myPupGgfFNAN79Pn8pQNON3aWg1pmF0jLFVNI/edit?usp=sharing"; 
         window.open(urlSheet, '_blank');
@@ -311,6 +337,7 @@ function ouvrirAdmin() {
         alert("Mot de passe incorrect.");
     }
 }
-// Lancement
+
+// Lancement automatique au chargement de la page
 mettreAJourCompteARebours();
 chargerDonnees();
