@@ -115,11 +115,20 @@ function calculerStatsGlobales() {
         if (p.midi === true || p.midi === "true") labels.push("☀️M");
         if (p.soir === true || p.soir === "true") labels.push("🌙S");
         return `
-            <span class="badge-present">
+            <div class="badge-present" style="
+            background-color: rgba(255, 255, 224, 0.7);
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: inline-block;
+            margin-right: 10px;
+            min-width: 120px;
+            border: 1px solid rgba(0,0,0,0.05);">
                 <strong>${p.nom}</strong> : ${p.convives}<br>
                 <small>${labels.join(' / ')}</small>
                 ${p.ownerId === browserId ? `<button onclick="ouvrirModifConvives(${p.id})" class="btn-edit-small">✏️</button>` : ''}
-            </span>`;
+            </div>`;
     }).join('');
 }
 
