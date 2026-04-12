@@ -54,16 +54,25 @@ function calculerStatsGlobales() {
         dessert: 0
     };
     
-    const vus = new Set();
+    const vus = new function calculerStatsGlobales() {
+    let stats = { midi: 0, soir: 0, totalParts: 0, apero: 0, entree: 0, platPrincipal: 0, dessert: 0 };
+    const vus = new Set(); 
+    const unique = {}; // Pour la liste du bas
 
     plats.forEach(p => {
-        if (!vus.has(p.ownerId)) {
+        // ID unique : on utilise ownerId, sinon le nom, sinon l'id de la ligne
+        const uid = p.ownerId || p.nom || p.id;
+
+        // --- A. GESTION DE LA PRÉSENCE ---
+        if (!vus.has(uid)) {
             const nb = parseFloat(p.convives || 0);
             if (p.midi === true || p.midi === "true") stats.midi += nb;
             if (p.soir === true || p.soir === "true") stats.soir += nb;
-            vus.add(p.ownerId);
+            vus.add(uid);
+            unique[uid] = p; // On stocke pour la liste des présents
         }
 
+        // --- B. GESTION DES PARTS ---
         if (p.plat && p.plat !== "null" && p.plat !== "") {
             const nbParts = parseFloat(p.parts || 0);
             stats.totalParts += nbParts;
@@ -72,7 +81,6 @@ function calculerStatsGlobales() {
             }
         }
     });
-
     if(document.getElementById('stat-midi')) document.getElementById('stat-midi').innerText = stats.midi;
     if(document.getElementById('stat-soir')) document.getElementById('stat-soir').innerText = stats.soir;
     if(document.getElementById('stat-total')) document.getElementById('stat-total').innerText = stats.totalParts;
@@ -81,14 +89,22 @@ function calculerStatsGlobales() {
     if(document.getElementById('stat-plats'))    document.getElementById('stat-plats').innerText = stats.platPrincipal;
     if(document.getElementById('stat-desserts')) document.getElementById('stat-desserts').innerText = stats.dessert;
 
-    // --- D. RENDU DE LA LISTE DES PRÉSENTS (Bas de page) ---
-const unique = {};
-plats.forEach(p => { 
-    // On ne prend que les lignes qui ont un nom et on évite les doublons par ownerId
-    if (p.nom && p.nom !== "null" && !unique[p.ownerId]) {
-        unique[p.ownerId] = p; 
+    // --- D. RENDU DE LA LISTE DES PRÉSENTS ---
+    const listeElem = document.getElementById('listePresents');
+    if (listeElem) {
+        listeElem.innerHTML = Object.values(unique).map(p => {
+            let labels = [];
+            if (p.midi === true || p.midi === "true") labels.push("☀️M");
+            if (p.soir === true || p.soir === "true") labels.push("🌙S");
+            return `
+                <div class="badge-present" style="background:white; padding:10px; border-radius:8px; margin:5px; display:inline-block; border:1px solid #feca57;">
+                    <strong>${p.nom || "Inconnu"}</strong> : ${p.convives || 0}<br>
+                    <small>${labels.join(' / ') || 'Non précisé'}</small>
+                    ${p.ownerId === browserId ? `<button onclick="ouvrirModifConvives('${p.id}')" class="btn-edit-small">✏️</button>` : ''}
+                </div>`;
+        }).join('');
     }
-});
+}
 
 const containerListe = document.getElementById('listePresents');
 if (containerListe) {
