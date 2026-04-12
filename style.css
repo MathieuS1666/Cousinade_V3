@@ -191,7 +191,7 @@ button {
 .repas-selection {
     display: flex;
     justify-content: space-around;
-    background: #fff;
+    background: ##dedcca;
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
