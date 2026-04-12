@@ -81,34 +81,36 @@ function calculerStatsGlobales() {
     if(document.getElementById('stat-plats'))    document.getElementById('stat-plats').innerText = stats.platPrincipal;
     if(document.getElementById('stat-desserts')) document.getElementById('stat-desserts').innerText = stats.dessert;
 
-    // --- D. RENDU DE LA LISTE DES PRÉSENTS (Avec inserts à 70%) ---
-    const unique = {};
-    plats.forEach(p => { if (!unique[p.ownerId]) unique[p.ownerId] = p; });
-    
-    document.getElementById('listePresents').innerHTML = Object.values(unique).map(p => {
+    // --- D. RENDU DE LA LISTE DES PRÉSENTS (Bas de page) ---
+const unique = {};
+plats.forEach(p => { 
+    // On ne prend que les lignes qui ont un nom et on évite les doublons par ownerId
+    if (p.nom && p.nom !== "null" && !unique[p.ownerId]) {
+        unique[p.ownerId] = p; 
+    }
+});
+
+const containerListe = document.getElementById('listePresents');
+if (containerListe) {
+    containerListe.innerHTML = Object.values(unique).map(p => {
         let labels = [];
         if (p.midi === true || p.midi === "true") labels.push("☀️M");
         if (p.soir === true || p.soir === "true") labels.push("🌙S");
         
         return `
             <div class="badge-present" style="
-                background-color: rgba(255, 255, 224, 0.7); 
-                padding: 12px; 
-                border-radius: 10px; 
-                margin-bottom: 10px; 
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-                display: inline-block; 
-                margin-right: 10px; 
-                min-width: 130px; 
-                border: 1px solid rgba(0,0,0,0.1);
-                color: #2c3e50;
-                text-align: center;
-                vertical-align: top;
-            ">
-                <strong style="color: #660503; font-size: 1.1em;">${p.nom || "Anonyme"}</strong><br>
-                <span style="font-size: 0.9em;">${p.convives} pers.</span><br>
-                <small style="font-weight: bold;">${labels.join(' / ')}</small>
-                ${p.ownerId === browserId ? `<br><button onclick="ouvrirModifConvives(${p.id})" class="btn-edit-small" style="margin-top:5px; cursor:pointer;">✏️</button>` : ''}
+                background-color: rgba(255, 255, 255, 0.8);
+                padding: 12px;
+                border-radius: 10px;
+                margin-bottom: 10px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+                display: inline-block;
+                margin-right: 10px;
+                min-width: 120px;
+                border: 1px solid #feca57;">
+                <strong>${p.nom}</strong> : ${p.convives || 0} pers.<br>
+                <small>${labels.length > 0 ? labels.join(' / ') : 'Non précisé'}</small>
+                ${p.ownerId === browserId ? `<button onclick="ouvrirModifConvives('${p.id}')" style="border:none; background:none; cursor:pointer; margin-left:5px;">✏️</button>` : ''}
             </div>`;
     }).join('');
 }
