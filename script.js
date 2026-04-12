@@ -18,20 +18,22 @@ localStorage.setItem('cousinade_id', browserId);
 
 // --- 1. CHARGEMENT DES DONNÉES ---
 
+let listeParticipants = []; // Nouvelle variable globale
+
 async function chargerDonnees() {
     try {
-        const [resPlats, resComs] = await Promise.all([
+        const [resPlats, resComs, resParts] = await Promise.all([
             fetch(`${API_URL}?action=getPlats&t=${Date.now()}`),
-            fetch(`${API_URL}?action=getCommentaires&t=${Date.now()}`)
+            fetch(`${API_URL}?action=getCommentaires&t=${Date.now()}`),
+            fetch(`${API_URL}?action=getParticipants&t=${Date.now()}`) // Ajout
         ]);
 
         plats = await resPlats.json();
         commentaires = await resComs.json();
+        listeParticipants = await resParts.json(); // Stockage
 
         renderAll();
-    } catch (e) {
-        console.error("Erreur de chargement :", e);
-    }
+    } catch (e) { console.error(e); }
 }
 
 function renderAll() {
@@ -309,13 +311,14 @@ function afficherLivreDor() {
 // --- 6. UTILITAIRES ET LOGIQUE D'INTERFACE ---
 
 function verifierSiDejaInscrit() {
-    const inscrit = plats.find(p => p.ownerId === browserId);
+    // ON CHERCHE DANS LES PARTICIPANTS MAINTENANT
+    const inscrit = listeParticipants.find(p => p.ownerId === browserId);
+    
     const boxConvives = document.getElementById('boxConvives');
     const boxRepas = document.querySelector('.repas-selection'); 
     const msgOk = document.getElementById('msgConvivesOk');
     const inputNom = document.getElementById('nomPersonne');
-    const champAllergie = document.getElementById('allergieSaisie');
-    
+
     if (inscrit) {
         if(boxConvives) boxConvives.style.display = "none";
         if(boxRepas) boxRepas.style.display = "none";
