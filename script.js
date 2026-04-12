@@ -18,9 +18,6 @@ localStorage.setItem('cousinade_id', browserId);
 
 // --- 1. CHARGEMENT DES DONNÉES ---
 
-/**
- * Récupère les données depuis Google Apps Script
- */
 async function chargerDonnees() {
     try {
         const [resPlats, resComs] = await Promise.all([
@@ -37,9 +34,6 @@ async function chargerDonnees() {
     }
 }
 
-/**
- * Lance toutes les fonctions de rendu visuel
- */
 function renderAll() {
     afficherPlats();
     afficherLivreDor();
@@ -49,14 +43,7 @@ function renderAll() {
 
 // --- 2. AFFICHAGE ET STATISTIQUES ---
 
-/**
- * Calcule les totaux pour le bandeau d'info (Midi, Soir, Parts)
- */
-/**
- * CALCUL ET AFFICHAGE DES STATISTIQUES (Bandeau Header & Liste)
- */
 function calculerStatsGlobales() {
-    // 1. Initialisation des compteurs
     let stats = {
         midi: 0,
         soir: 0,
@@ -67,10 +54,9 @@ function calculerStatsGlobales() {
         dessert: 0
     };
     
-    const vus = new Set(); // Pour ne compter les convives qu'une fois par personne
+    const vus = new Set();
 
     plats.forEach(p => {
-        // --- A. GESTION DE LA PRÉSENCE (Midi/Soir) ---
         if (!vus.has(p.ownerId)) {
             const nb = parseFloat(p.convives || 0);
             if (p.midi === true || p.midi === "true") stats.midi += nb;
@@ -78,35 +64,24 @@ function calculerStatsGlobales() {
             vus.add(p.ownerId);
         }
 
-        // --- B. GESTION DES PARTS PAR CATÉGORIE ---
         if (p.plat && p.plat !== "null" && p.plat !== "") {
             const nbParts = parseFloat(p.parts || 0);
-            
-            // On incrémente le total général
             stats.totalParts += nbParts;
-            
-            // On incrémente la catégorie spécifique
-            // Note : on vérifie que p.categorie correspond bien aux clés de notre objet stats
             if (stats.hasOwnProperty(p.categorie)) {
                 stats[p.categorie] += nbParts;
             }
         }
     });
 
-    // --- C. MISE À JOUR DU DOM (Liaison avec ton HTML) ---
-    
-    // Stats de présence
     if(document.getElementById('stat-midi')) document.getElementById('stat-midi').innerText = stats.midi;
     if(document.getElementById('stat-soir')) document.getElementById('stat-soir').innerText = stats.soir;
     if(document.getElementById('stat-total')) document.getElementById('stat-total').innerText = stats.totalParts;
-
-    // Stats par catégories (Attention aux IDs dans ton HTML)
     if(document.getElementById('stat-apero'))    document.getElementById('stat-apero').innerText = stats.apero;
     if(document.getElementById('stat-entrees'))  document.getElementById('stat-entrees').innerText = stats.entree;
     if(document.getElementById('stat-plats'))    document.getElementById('stat-plats').innerText = stats.platPrincipal;
     if(document.getElementById('stat-desserts')) document.getElementById('stat-desserts').innerText = stats.dessert;
 
-    // --- D. RENDU DE LA LISTE DES PRÉSENTS (Bas de page) ---
+    // --- D. RENDU DE LA LISTE DES PRÉSENTS (Avec inserts à 70%) ---
     const unique = {};
     plats.forEach(p => { if (!unique[p.ownerId]) unique[p.ownerId] = p; });
     
@@ -114,27 +89,30 @@ function calculerStatsGlobales() {
         let labels = [];
         if (p.midi === true || p.midi === "true") labels.push("☀️M");
         if (p.soir === true || p.soir === "true") labels.push("🌙S");
+        
         return `
             <div class="badge-present" style="
-            background-color: rgba(255, 255, 224, 0.7);
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            display: inline-block;
-            margin-right: 10px;
-            min-width: 120px;
-            border: 1px solid rgba(0,0,0,0.05);">
-                <strong>${p.nom}</strong> : ${p.convives}<br>
-                <small>${labels.join(' / ')}</small>
-                ${p.ownerId === browserId ? `<button onclick="ouvrirModifConvives(${p.id})" class="btn-edit-small">✏️</button>` : ''}
+                background-color: rgba(255, 255, 224, 0.7); 
+                padding: 12px; 
+                border-radius: 10px; 
+                margin-bottom: 10px; 
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+                display: inline-block; 
+                margin-right: 10px; 
+                min-width: 130px; 
+                border: 1px solid rgba(0,0,0,0.1);
+                color: #2c3e50;
+                text-align: center;
+                vertical-align: top;
+            ">
+                <strong style="color: #660503; font-size: 1.1em;">${p.nom || "Anonyme"}</strong><br>
+                <span style="font-size: 0.9em;">${p.convives} pers.</span><br>
+                <small style="font-weight: bold;">${labels.join(' / ')}</small>
+                ${p.ownerId === browserId ? `<br><button onclick="ouvrirModifConvives(${p.id})" class="btn-edit-small" style="margin-top:5px; cursor:pointer;">✏️</button>` : ''}
             </div>`;
     }).join('');
 }
 
-/**
- * Affiche les plats dans les 5 colonnes correspondantes
- */
 function afficherPlats() {
     const cats = [
         ['aperoListe', 'apero', '🍹'],
@@ -145,22 +123,14 @@ function afficherPlats() {
     ];
 
     cats.forEach(([elemId, key, icon]) => {
-        // 1. On filtre les plats qui appartiennent à cette catégorie ET qui ne sont pas vides
         const list = plats.filter(p => p.categorie === key && p.plat && p.plat !== "null" && p.plat !== "");
-        
-        // 2. CALCUL DU TOTAL DE LA CATÉGORIE (Correction ici)
-        // On utilise parseFloat pour transformer le texte en nombre et on ajoute 0 si c'est vide
         const totalCat = list.reduce((s, p) => s + (parseFloat(p.parts) || 0), 0);
-        
-        // 3. Mise à jour du badge HTML (ex: total-apero)
         const badge = document.getElementById(`total-${key}`);
         if(badge) {
             badge.innerText = totalCat;
-            // Optionnel : on cache le badge s'il est à 0 pour épurer
             badge.style.display = totalCat > 0 ? "inline" : "none";
         }
 
-        // 4. Génération du HTML pour la liste
         document.getElementById(elemId).innerHTML = list.map(p => `
             <div class="plat-item" style="border-left-color: var(--${key})">
                 <span>${icon} <strong>${p.nom}</strong><br>${p.plat} (${p.parts}p)</span>
@@ -172,7 +142,6 @@ function afficherPlats() {
             </div>`).join('') || '<div style="color:gray; font-size:0.8em; padding:5px;">Rien pour le moment</div>';
     });
 
-    // Gestion de l'affichage des allergies (doublons filtrés)
     const vusAll = new Set();
     const listeAllergies = plats.filter(p => {
         if (p.allergies && p.allergies.trim() !== "" && !vusAll.has(p.ownerId)) {
@@ -188,14 +157,9 @@ function afficherPlats() {
 
 // --- 3. ACTIONS PRINCIPALES (ENVOIS) ---
 
-/**
- * Envoie une inscription ou un nouveau plat
- */
 async function ajouterPlat() {
     const btn = document.getElementById('btnAjouter');
     const platSaisi = document.getElementById('nouveauPlat').value.trim();
-    
-    // On prépare l'objet pour le Backend
     const fields = {
         action: "insert",
         browserId: browserId,
@@ -203,7 +167,6 @@ async function ajouterPlat() {
         convives: document.getElementById('nbConvives').value || 0,
         midi: document.getElementById('checkMidi').checked,
         soir: document.getElementById('checkSoir').checked,
-        // Si vide, on envoie explicitement "null" pour ne pas créer de ligne dans la feuille Plats
         plat: platSaisi || "null", 
         parts: document.getElementById('nombreParts').value || 0,
         categorie: document.querySelector('input[name="categoriePlat"]:checked').value,
@@ -223,9 +186,6 @@ async function ajouterPlat() {
     finally { btn.disabled = false; btn.innerText = "Valider"; }
 }
 
-/**
- * Supprime un plat (demande confirmation)
- */
 async function supprimerPlat(id) {
     if(!confirm("Supprimer ce plat ?")) return;
     await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "delete", rowId: id, browserId: browserId }) });
@@ -294,13 +254,11 @@ async function validerModifConvives() {
     await chargerDonnees();
 }
 
-// --- 5. LIVRE D'OR ---
+// --- 5. LIVRE D'OR (Avec inserts à 70%) ---
 
 async function ajouterCommentaireDirect() {
     const txt = document.getElementById('commentaireSaisieSeule').value.trim();
     if(!txt) return;
-
-    // IMPORTANT : On envoie "Message Livre d'Or" pour que le Backend n'écrase pas le profil Participant
     const data = {
         action: "insert",
         browserId: browserId,
@@ -316,18 +274,22 @@ async function ajouterCommentaireDirect() {
 function afficherLivreDor() {
     const container = document.getElementById('livreDor');
     container.innerHTML = commentaires.map(m => `
-        <div class="com-card" style="background:white; padding:15px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1); position:relative; margin-bottom:10px;">
-            <p style="font-style:italic; margin-bottom:5px;">"${m.commentaire}"</p>
-            <p style="text-align:right; font-weight:bold; color:var(--plat); margin:0;">— ${m.nom}</p>
+        <div class="com-card" style="
+            background-color: rgba(255, 255, 224, 0.7); 
+            padding: 15px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+            border: 1px solid rgba(0,0,0,0.05);
+            color: #2c3e50;
+        ">
+            <p style="font-style:italic; margin-bottom:8px;">"${m.commentaire}"</p>
+            <p style="text-align:right; font-weight:bold; color: #660503; margin:0; font-size: 0.9em;">— ${m.nom}</p>
         </div>
     `).reverse().join('');
 }
 
 // --- 6. UTILITAIRES ET LOGIQUE D'INTERFACE ---
 
-/**
- * Masque les champs logistiques si le cousin est déjà reconnu
- */
 function verifierSiDejaInscrit() {
     const inscrit = plats.find(p => p.ownerId === browserId);
     const boxConvives = document.getElementById('boxConvives');
@@ -337,20 +299,12 @@ function verifierSiDejaInscrit() {
     const champAllergie = document.getElementById('allergieSaisie');
     
     if (inscrit) {
-        // Masquer la présence (Midi/Soir) et le nombre
         if(boxConvives) boxConvives.style.display = "none";
         if(boxRepas) boxRepas.style.display = "none";
-        
         msgOk.style.display = "block";
         inputNom.value = inscrit.nom;
         inputNom.readOnly = true;
-        
-        // Masquer le champ allergie si déjà rempli pour épurer le formulaire
-       // if(inscrit.allergies && champAllergie) {
-           //  champAllergie.parentElement.style.display = "none";
-      //  }
     } else {
-        // Mode "Première visite" : On montre tout
         if(boxConvives) boxConvives.style.display = "block";
         if(boxRepas) boxRepas.style.display = "flex";
         msgOk.style.display = "none";
@@ -373,9 +327,6 @@ function mettreAJourCompteARebours() {
     document.getElementById("countdown").innerText = diff > 0 ? `J-${jours} avant la cousinade !` : "C'est le jour J ! 🎉";
 }
 
-/**
- * Fonction Admin sécurisée
- */
 function ouvrirAdmin() {
     const mdp = prompt("Veuillez saisir le mot de passe administrateur :");
     if (mdp === "1234") {
@@ -386,6 +337,5 @@ function ouvrirAdmin() {
     }
 }
 
-// Lancement automatique au chargement de la page
 mettreAJourCompteARebours();
 chargerDonnees();
