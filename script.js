@@ -52,31 +52,61 @@ function renderAll() {
 /**
  * Calcule les totaux pour le bandeau d'info (Midi, Soir, Parts)
  */
+/**
+ * CALCUL ET AFFICHAGE DES STATISTIQUES (Bandeau Header & Liste)
+ */
 function calculerStatsGlobales() {
-    let totalMidi = 0, totalSoir = 0, totalConv = 0, totalParts = 0;
-    const vus = new Set(); // Pour ne compter qu'une fois chaque participant
+    // 1. Initialisation des compteurs
+    let stats = {
+        midi: 0,
+        soir: 0,
+        totalParts: 0,
+        apero: 0,
+        entree: 0,
+        platPrincipal: 0,
+        dessert: 0
+    };
+    
+    const vus = new Set(); // Pour ne compter les convives qu'une fois par personne
 
     plats.forEach(p => {
-        // Stats de présence (liées au Participant)
+        // --- A. GESTION DE LA PRÉSENCE (Midi/Soir) ---
         if (!vus.has(p.ownerId)) {
             const nb = parseFloat(p.convives || 0);
-            if (p.midi === true || p.midi === "true") totalMidi += nb;
-            if (p.soir === true || p.soir === "true") totalSoir += nb;
-            totalConv += nb;
+            if (p.midi === true || p.midi === "true") stats.midi += nb;
+            if (p.soir === true || p.soir === "true") stats.soir += nb;
             vus.add(p.ownerId);
         }
-        // Stats de nourriture (tous les plats comptent)
-        if (p.plat && p.plat !== "null") {
-            totalParts += parseInt(p.parts || 0);
+
+        // --- B. GESTION DES PARTS PAR CATÉGORIE ---
+        if (p.plat && p.plat !== "null" && p.plat !== "") {
+            const nbParts = parseFloat(p.parts || 0);
+            
+            // On incrémente le total général
+            stats.totalParts += nbParts;
+            
+            // On incrémente la catégorie spécifique
+            // Note : on vérifie que p.categorie correspond bien aux clés de notre objet stats
+            if (stats.hasOwnProperty(p.categorie)) {
+                stats[p.categorie] += nbParts;
+            }
         }
     });
 
-    // Mise à jour des badges dans le bandeau header
-    if(document.getElementById('stat-midi')) document.getElementById('stat-midi').innerText = totalMidi;
-    if(document.getElementById('stat-soir')) document.getElementById('stat-soir').innerText = totalSoir;
-    if(document.getElementById('stat-total')) document.getElementById('stat-total').innerText = totalParts;
+    // --- C. MISE À JOUR DU DOM (Liaison avec ton HTML) ---
+    
+    // Stats de présence
+    if(document.getElementById('stat-midi')) document.getElementById('stat-midi').innerText = stats.midi;
+    if(document.getElementById('stat-soir')) document.getElementById('stat-soir').innerText = stats.soir;
+    if(document.getElementById('stat-total')) document.getElementById('stat-total').innerText = stats.totalParts;
 
-    // Rendu de la liste des badges de présence (en bas de page)
+    // Stats par catégories (Attention aux IDs dans ton HTML)
+    if(document.getElementById('stat-apero'))    document.getElementById('stat-apero').innerText = stats.apero;
+    if(document.getElementById('stat-entrees'))  document.getElementById('stat-entrees').innerText = stats.entree;
+    if(document.getElementById('stat-plats'))    document.getElementById('stat-plats').innerText = stats.platPrincipal;
+    if(document.getElementById('stat-desserts')) document.getElementById('stat-desserts').innerText = stats.dessert;
+
+    // --- D. RENDU DE LA LISTE DES PRÉSENTS (Bas de page) ---
     const unique = {};
     plats.forEach(p => { if (!unique[p.ownerId]) unique[p.ownerId] = p; });
     
