@@ -45,7 +45,7 @@ function renderAll() {
 
 // --- 2. AFFICHAGE ET STATISTIQUES ---
 
-function calculerStatsGlobales() {
+/**function calculerStatsGlobales() {
     let stats = {
         midi: 0,
         soir: 0,
@@ -131,8 +131,56 @@ if (containerListe) {
                 ${p.ownerId === browserId ? `<button onclick="ouvrirModifConvives('${p.id}')" style="border:none; background:none; cursor:pointer; margin-left:5px;">✏️</button>` : ''}
             </div>`;
     }).join('');
-}
+}**/
+// --- MISE À JOUR DES STATS ET DE LA LISTE DES PRÉSENTS ---
+function calculerStatsGlobales() {
+    let stats = { midi: 0, soir: 0, totalParts: 0, apero: 0, entree: 0, platPrincipal: 0, dessert: 0 };
 
+    // 1. On calcule la présence via la liste des participants
+    listeParticipants.forEach(p => {
+        const nb = parseFloat(p.convives || 0);
+        if (p.midi === true || p.midi === "true") stats.midi += nb;
+        if (p.soir === true || p.soir === "true") stats.soir += nb;
+    });
+
+    // 2. On calcule les plats via la liste des plats
+    plats.forEach(p => {
+        if (p.plat && p.plat !== "null" && p.plat !== "") {
+            const nbParts = parseFloat(p.parts || 0);
+            stats.totalParts += nbParts;
+            if (stats.hasOwnProperty(p.categorie)) {
+                stats[p.categorie] += nbParts;
+            }
+        }
+    });
+
+    // Mise à jour des badges HTML
+    const updateText = (id, val) => { if(document.getElementById(id)) document.getElementById(id).innerText = val; };
+    updateText('stat-midi', stats.midi);
+    updateText('stat-soir', stats.soir);
+    updateText('stat-total', stats.totalParts);
+    updateText('stat-apero', stats.apero);
+    updateText('stat-entrees', stats.entree);
+    updateText('stat-plats', stats.platPrincipal);
+    updateText('stat-desserts', stats.dessert);
+
+    // 3. Rendu de la liste des présents (en bas de page)
+    const listeElem = document.getElementById('listePresents');
+    if (listeElem) {
+        listeElem.innerHTML = listeParticipants.map(p => {
+            let labels = [];
+            if (p.midi === true || p.midi === "true") labels.push("☀️M");
+            if (p.soir === true || p.soir === "true") labels.push("🌙S");
+            
+            return `
+                <div class="badge-present" style="background:white; padding:10px; border-radius:8px; margin:5px; display:inline-block; border:1px solid #feca57; min-width:120px;">
+                    <strong>${p.nom || "Inconnu"}</strong> : ${p.convives || 0}<br>
+                    <small>${labels.join(' / ') || 'Non précisé'}</small>
+                    ${p.ownerId === browserId ? `<button onclick="ouvrirModifConvivesDepuisPart('${p.ownerId}')" class="btn-edit-small">✏️</button>` : ''}
+                </div>`;
+        }).join('');
+    }
+}
 function afficherPlats() {
     const cats = [
         ['aperoListe', 'apero', '🍹'],
@@ -310,7 +358,7 @@ function afficherLivreDor() {
 
 // --- 6. UTILITAIRES ET LOGIQUE D'INTERFACE ---
 
-function verifierSiDejaInscrit() {
+/**function verifierSiDejaInscrit() {
     // ON CHERCHE DANS LES PARTICIPANTS MAINTENANT
     const inscrit = listeParticipants.find(p => p.ownerId === browserId);
     
@@ -331,6 +379,28 @@ function verifierSiDejaInscrit() {
         msgOk.style.display = "none";
         inputNom.readOnly = false;
         if(champAllergie) champAllergie.parentElement.style.display = "block";
+    }
+}*//
+
+function verifierSiDejaInscrit() {
+    // On compare les IDs (on force en String pour éviter les bugs)
+    const inscrit = listeParticipants.find(p => String(p.ownerId).trim() === String(browserId).trim());
+    
+    const boxConvives = document.getElementById('boxConvives');
+    const msgOk = document.getElementById('msgConvivesOk');
+    const inputNom = document.getElementById('nomPersonne');
+
+    if (inscrit) {
+        if(boxConvives) boxConvives.style.display = "none";
+        if(msgOk) msgOk.style.display = "block";
+        inputNom.value = inscrit.nom;
+        inputNom.readOnly = true;
+        inputNom.style.background = "#f0f0f0";
+    } else {
+        if(boxConvives) boxConvives.style.display = "block";
+        if(msgOk) msgOk.style.display = "none";
+        inputNom.readOnly = false;
+        inputNom.style.background = "white";
     }
 }
 
