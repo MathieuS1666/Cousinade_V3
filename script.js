@@ -380,7 +380,7 @@ function afficherLivreDor() {
         inputNom.readOnly = false;
         if(champAllergie) champAllergie.parentElement.style.display = "block";
     }
-}*//
+}**/
 
 function verifierSiDejaInscrit() {
     // On compare les IDs (on force en String pour éviter les bugs)
