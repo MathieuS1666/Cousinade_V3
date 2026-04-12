@@ -337,9 +337,9 @@ function verifierSiDejaInscrit() {
         inputNom.readOnly = true;
         
         // Masquer le champ allergie si déjà rempli pour épurer le formulaire
-        if(inscrit.allergies && champAllergie) {
-             champAllergie.parentElement.style.display = "none";
-        }
+       // if(inscrit.allergies && champAllergie) {
+           //  champAllergie.parentElement.style.display = "none";
+      //  }
     } else {
         // Mode "Première visite" : On montre tout
         if(boxConvives) boxConvives.style.display = "block";
