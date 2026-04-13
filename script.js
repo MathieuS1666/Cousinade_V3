@@ -2,7 +2,7 @@
  * COUSINADE BOB 2026 - LOGIQUE FRONTEND
  */
 
-const API_URL = "https://script.google.com/macros/s/AKfycbzEYPzn3onjeGBLSPPZDlVpBI7G9TyowzX7TCLAJQ1jGI7Qsz-nKF4Fb0RBSnZ8K4iN/exec"; 
+const API_URL = "https://script.google.com/macros/s/AKfycbzd6EyIoMr05mbL8vEZcRb3J_tWwkUvbE5xLBZaNf7H8yJyKoQwK4lxAzsolkev1fpI/exec"; 
 const DATE_COUSINADE = new Date("2026-05-09T12:00:00");
 
 let plats = [];
@@ -261,6 +261,7 @@ function verifierSiDejaInscrit() {
         inputNom.value = inscrit.nom;
         inputNom.readOnly = true;
         inputNom.style.background = "#f0f0f0";
+        document.getElementById('allergieSaisieSeule').value = inscrit.allergies || "";
     } else {
         if(boxConvives) boxConvives.style.display = "block";
         if(msgOk) msgOk.style.display = "none";
@@ -421,6 +422,36 @@ async function validerModifCom() {
 function fermerModaleLivreDor() {
     document.getElementById('modalLivreDor').style.display = "none";
 }
+
+async function mettreAJourAllergies() {
+    const allergie = document.getElementById('allergieSaisieSeule').value.trim();
+    const nom = document.getElementById('nomPersonne').value.trim();
+
+    if (!nom) return alert("Veuillez d'abord saisir votre prénom en haut.");
+    
+    const btn = document.getElementById('btnAllergie');
+    btn.disabled = true;
+    btn.innerText = "Mise à jour...";
+
+    try {
+        await fetch(API_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: "updateAllergies",
+                browserId: browserId,
+                allergies: allergie
+            })
+        });
+        alert("Vos préférences alimentaires ont été mises à jour !");
+        await chargerDonnees();
+    } catch (e) {
+        alert("Erreur lors de la mise à jour.");
+    } finally {
+        btn.disabled = false;
+        btn.innerText = "Enregistrer mes préférences";
+    }
+}
+
 function ouvrirAdmin() {
     const pass = prompt("Accès réservé. Veuillez saisir le mot de passe :");
     
