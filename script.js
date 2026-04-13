@@ -46,8 +46,8 @@ function calculerStatsGlobales() {
 
     listeParticipants.forEach(p => {
         const nb = parseFloat(p.convives || 0);
-        if (p.midi === true || p.midi === "true") stats.midi += nb;
-        if (p.soir === true || p.soir === "true") stats.soir += nb;
+        if (p.midi === true || p.midi === "true" || p.midi === "TRUE") stats.midi += nb;
+        if (p.soir === true || p.soir === "true" || p.soir === "TRUE") stats.soir += nb;
     });
 
     plats.forEach(p => {
@@ -75,7 +75,15 @@ function calculerStatsGlobales() {
             if (p.soir === true || p.soir === "TRUE") labels.push("🌙S");
             
             return `
-                <div class="badge-present" style="background:white; padding:10px; border-radius:8px; margin:5px; display:inline-block; border:1px solid #feca57; min-width:120px;">
+                <div class="badge-present" 
+                style="
+                background:white; 
+                padding:10px; 
+                border-radius:8px; 
+                margin:5px; 
+                display:inline-block; 
+                border:1px solid #feca57; 
+                min-width:120px;">
                     <strong>${p.nom || "Inconnu"}</strong> : ${p.convives || 0}<br>
                     <small>${labels.join(' / ') || 'Non précisé'}</small>
                     ${p.ownerId === browserId ? `<button onclick="ouvrirModifConvivesDepuisPart('${p.ownerId}')" class="btn-edit-small">✏️</button>` : ''}
@@ -93,8 +101,8 @@ function ouvrirModifConvivesDepuisPart(oId) {
     platEnEditionModale = p; // On stocke l'objet participant
     document.getElementById('titreModalConvives').innerText = p.nom;
     document.getElementById('editNbConvives').value = p.convives;
-    document.getElementById('editCheckMidi').checked = (p.midi === true || p.midi === "true");
-    document.getElementById('editCheckSoir').checked = (p.soir === true || p.soir === "true");
+    document.getElementById('editCheckMidi').checked = (p.midi === true || p.midi === "true" || p.midi === "TRUE");
+    document.getElementById('editCheckSoir').checked = (p.soir === true || p.soir === "true" || p.soir === "TRUE");
     document.getElementById('modalConvives').style.display = "block";
 }
 
