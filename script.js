@@ -452,7 +452,7 @@ async function mettreAJourAllergies() {
         btn.innerText = "Enregistrer mes préférences";
     }
 }
-/**
+
 function afficherAllergies() {
     const conteneur = document.getElementById('allergieListe');
     const badgeTotal = document.getElementById('total-allergies');
@@ -475,7 +475,7 @@ function afficherAllergies() {
             <div style="font-size: 0.85em; color: #333;">${p.allergies}</div>
         </div>
     `).join('');
-}**/
+}
 function ouvrirAdmin() {
     const pass = prompt("Accès réservé. Veuillez saisir le mot de passe :");
     
