@@ -40,6 +40,7 @@ function renderAll() {
 }
 
 async function ajouterParticipant() {
+    
     const btn = document.getElementById('btnInscrire');
     const nom = document.getElementById('nomPersonne').value.trim();
     const convives = parseFloat(document.getElementById('nbConvives').value);
@@ -100,6 +101,7 @@ async function ajouterParticipant() {
 // --- 2. STATISTIQUES ET AFFICHAGE ---
 
 function calculerStatsGlobales() {
+    console.log("Données brutes reçues :", listeParticipants);
     let stats = { midi: 0, soir: 0, totalParts: 0, apero: 0, entree: 0, platPrincipal: 0, dessert: 0 };
 
     // 1. CALCUL DES STATS (La barre de progression en haut)
