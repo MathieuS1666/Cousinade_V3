@@ -104,8 +104,12 @@ function calculerStatsGlobales() {
 
     listeParticipants.forEach(p => {
         const nb = parseFloat(p.convives || 0);
-        if (p.midi === true || p.midi === "true" || p.midi === "TRUE" || String(p.midi).toUpperCase() === "TRUE") stats.midi += nb;
-        if (p.soir === true || p.soir === "true" || p.soir === "TRUE"|| String(p.soir).toUpperCase() === "TRUE") stats.soir += nb;
+        // On utilise la même logique que tes stats globales
+const midiOk = (p.midi === true || String(p.midi).toUpperCase() === "TRUE");
+const soirOk = (p.soir === true || String(p.soir).toUpperCase() === "TRUE");
+
+if (midiOk) labels.push("☀️M");
+if (soirOk) labels.push("🌙S");
     });
 
     plats.forEach(p => {
