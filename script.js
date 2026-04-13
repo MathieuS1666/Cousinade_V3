@@ -420,7 +420,22 @@ async function validerModifCom() {
 function fermerModaleLivreDor() {
     document.getElementById('modalLivreDor').style.display = "none";
 }
-
+function ouvrirAdmin() {
+    const pass = prompt("Mot de passe administrateur :");
+    
+    // Remplace "1234" par le code de ton choix
+    if (pass === "1234") {
+        // Option A : Rediriger vers la feuille Google Sheets directement
+        // window.open("Lien_De_Ta_Feuille_Google_Sheets", "_blank");
+        
+        // Option B : Afficher un bouton de remise à zéro (si tu as prévu la fonction)
+        if(confirm("Voulez-vous ouvrir la gestion de la base de données ?")) {
+             window.open("https://docs.google.com/spreadsheets/d/1F-Bx57myPupGgfFNAN79Pn8pQNON3aWg1pmF0jLFVNI/edit?usp=sharing", "_blank");
+        }
+    } else {
+        alert("Accès refusé.");
+    }
+}
 
 mettreAJourCompteARebours();
 chargerDonnees();
