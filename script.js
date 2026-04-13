@@ -214,7 +214,7 @@ async function ajouterPlat() {
         convives: document.getElementById('nbConvives').value || 0,
         midi: document.getElementById('checkMidi').checked,
         soir: document.getElementById('checkSoir').checked,
-        allergies: document.getElementById('allergieSaisie').value.trim()
+        allergies: document.getElementById('allergieSaisieSeule') ? document.getElementById('allergieSaisieSeule').value.trim() : ""
     };
 
     btn.disabled = true;
@@ -452,6 +452,7 @@ async function mettreAJourAllergies() {
         btn.innerText = "Enregistrer mes préférences";
     }
 }
+/**
 function afficherAllergies() {
     const conteneur = document.getElementById('allergieListe');
     const badgeTotal = document.getElementById('total-allergies');
@@ -474,7 +475,7 @@ function afficherAllergies() {
             <div style="font-size: 0.85em; color: #333;">${p.allergies}</div>
         </div>
     `).join('');
-}
+}**/
 function ouvrirAdmin() {
     const pass = prompt("Accès réservé. Veuillez saisir le mot de passe :");
     
