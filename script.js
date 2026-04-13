@@ -2,7 +2,7 @@
  * COUSINADE BOB 2026 - LOGIQUE FRONTEND
  */
 
-const API_URL = "https://script.google.com/macros/s/AKfycbzEtIbWu66URpmI1ClOHx5XHq49EQAZiSHUlEKmS_GkqrcEF3x1s4nUvilzU68VCiSm/exec"; 
+const API_URL = "https://script.google.com/macros/s/AKfycbypy-rN0WCaD3WeD76BPZodSC6RR_ZgMDElstDzgoJmUh99KMnAZGCQB4UjXeHJl9Q/exec"; 
 const DATE_COUSINADE = new Date("2026-05-09T12:00:00");
 
 let plats = [];
@@ -286,9 +286,15 @@ function afficherLivreDor() {
     const container = document.getElementById('livreDor');
     if(!container) return;
     container.innerHTML = commentaires.map(m => `
-        <div class="com-card" style="background:rgba(255,255,224,0.7); padding:15px; border-radius:10px; margin-bottom:10px;">
+        <div class="com-card" style="background:rgba(255,255,224,0.7); padding:15px; border-radius:10px; margin-bottom:10px; position:relative;">
             <p style="font-style:italic;">"${m.commentaire}"</p>
-            <p style="text-align:right; font-weight:bold;">— ${m.nom}</p>
+            <p style="text-align:right; font-weight:bold; margin-bottom:0;">— ${m.nom}</p>
+            
+            ${m.ownerId === browserId ? `
+                <button onclick="ouvrirModifCom('${m.messageId}')" 
+                        style="position:absolute; top:5px; right:5px; width:auto; background:none; color:gray; font-size:0.8em; padding:5px;">
+                    ✏️
+                </button>` : ''}
         </div>`).reverse().join('');
 }
 
@@ -332,32 +338,7 @@ async function validerModifModale() {
 }
 
 // --- LIVRE D'OR ---
-/**
-async function ajouterCommentaireDirect() {
-    const com = document.getElementById('commentaireSaisieSeule').value.trim();
-    const nom = document.getElementById('nomPersonne').value.trim();
 
-    if (!nom) return alert("Indiquez votre prénom en haut de page !");
-    if (!com) return alert("Le message est vide...");
-
-    const btn = document.getElementById('btnCom');
-    btn.disabled = true;
-    btn.innerText = "Envoi...";
-    
-    try {
-        await fetch(API_URL, { 
-            method: 'POST', 
-            body: JSON.stringify({ 
-                action: "insertCommentaire", 
-                nom: nom, 
-                commentaire: com }) 
-        });
-        document.getElementById('commentaireSaisieSeule').value = "";
-        await chargerDonnees();
-    } catch (e) { alert("Erreur lors de l'envoi"); }
-    finally { btn.disabled = false; }
-}
-**/
 async function ajouterCommentaireDirect() {
     const com = document.getElementById('commentaireSaisieSeule').value.trim();
     const nom = document.getElementById('nomPersonne').value.trim();
@@ -393,5 +374,53 @@ async function ajouterCommentaireDirect() {
         btn.innerText = texteOriginal; 
     }
 }
+
+// 1. Ouvre la modale du Livre d'Or
+function ouvrirModifCom(messageId) {
+    const com = commentaires.find(c => c.messageId === messageId);
+    if (!com) return;
+
+    // On stocke l'ID du message pour savoir lequel mettre à jour
+    idEnEditionModale = messageId; 
+    
+    document.getElementById('editCom').value = com.commentaire;
+    document.getElementById('modalLivreDor').style.display = "block";
+}
+
+// 2. Envoie la modification au Google Script
+async function validerModifCom() {
+    const nouveauTexte = document.getElementById('editCom').value.trim();
+    if (!nouveauTexte) return alert("Le message ne peut pas être vide.");
+
+    const btn = document.querySelector("#modalLivreDor button");
+    const texteOriginal = btn.innerText;
+
+    btn.disabled = true;
+    btn.innerText = "Mise à jour...";
+
+    const data = {
+        action: "updateCommentaire", // On crée une nouvelle action côté GS
+        messageId: idEnEditionModale,
+        browserId: browserId,
+        commentaire: nouveauTexte
+    };
+
+    try {
+        await fetch(API_URL, { method: 'POST', body: JSON.stringify(data) });
+        fermerModaleLivreDor();
+        await chargerDonnees();
+    } catch (e) {
+        alert("Erreur lors de la modification");
+    } finally {
+        btn.disabled = false;
+        btn.innerText = texteOriginal;
+    }
+}
+
+function fermerModaleLivreDor() {
+    document.getElementById('modalLivreDor').style.display = "none";
+}
+
+
 mettreAJourCompteARebours();
 chargerDonnees();
