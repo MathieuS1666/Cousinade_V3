@@ -39,6 +39,48 @@ function renderAll() {
     verifierSiDejaInscrit();
 }
 
+async function ajouterParticipant() {
+    const btn = document.getElementById('btnInscrire'); // On supposera cet ID pour ton nouveau bouton
+    const nom = document.getElementById('nomPersonne').value.trim();
+    const convives = document.getElementById('nbConvives').value || 0;
+    const midi = document.getElementById('checkMidi').checked;
+    const soir = document.getElementById('checkSoir').checked;
+
+    if (!nom) return alert("Le prénom est requis pour s'inscrire !");
+
+    const fields = {
+        action: "insert",
+        browserId: browserId,
+        nom: nom,
+        convives: convives,
+        midi: midi,
+        soir: soir,
+        plat: "null", // Valeur par défaut car pas de plat ici
+        parts: 0,
+        categorie: "autre",
+        allergies: document.getElementById('allergieSaisie').value.trim() || ""
+    };
+
+    if (btn) {
+        btn.disabled = true;
+        btn.innerText = "Inscription...";
+    }
+
+    try {
+        await fetch(API_URL, { method: 'POST', body: JSON.stringify(fields) });
+        // On ne vide pas le nom car il servira pour ajouter un plat après
+        await chargerDonnees();
+        alert("Inscription réussie ! Vous pouvez maintenant ajouter un plat si vous le souhaitez.");
+    } catch (e) { 
+        alert("Erreur de connexion"); 
+    } finally { 
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = "Valider mon inscription";
+        }
+    }
+}
+
 // --- 2. STATISTIQUES ET AFFICHAGE ---
 
 function calculerStatsGlobales() {
@@ -130,27 +172,36 @@ function afficherPlats() {
 
 async function ajouterPlat() {
     const btn = document.getElementById('btnAjouter');
+    const nom = document.getElementById('nomPersonne').value.trim();
+    const platNom = document.getElementById('nouveauPlat').value.trim();
+
+    if (!nom) return alert("Veuillez d'abord saisir votre prénom.");
+    if (!platNom) return alert("Quel plat souhaitez-vous apporter ?");
+
     const fields = {
         action: "insert",
         browserId: browserId,
-        nom: document.getElementById('nomPersonne').value.trim(),
+        nom: nom,
+        plat: platNom,
+        parts: document.getElementById('nombreParts').value || 0,
+        categorie: document.querySelector('input[name="categoriePlat"]:checked').value,
+        // On récupère les infos de présence actuelles pour ne pas écraser avec du vide côté Google Script
         convives: document.getElementById('nbConvives').value || 0,
         midi: document.getElementById('checkMidi').checked,
         soir: document.getElementById('checkSoir').checked,
-        plat: document.getElementById('nouveauPlat').value.trim() || "null", 
-        parts: document.getElementById('nombreParts').value || 0,
-        categorie: document.querySelector('input[name="categoriePlat"]:checked').value,
         allergies: document.getElementById('allergieSaisie').value.trim()
     };
 
-    if (!fields.nom) return alert("Le prénom est requis !");
     btn.disabled = true;
     try {
         await fetch(API_URL, { method: 'POST', body: JSON.stringify(fields) });
-        annulerEdition();
+        annulerEdition(); // Vide les champs du plat uniquement
         await chargerDonnees();
-    } catch (e) { alert("Erreur de connexion"); }
-    finally { btn.disabled = false; }
+    } catch (e) { 
+        alert("Erreur lors de l'ajout du plat"); 
+    } finally { 
+        btn.disabled = false; 
+    }
 }
 
 async function validerModifConvives() {
