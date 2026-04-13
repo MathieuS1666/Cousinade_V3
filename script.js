@@ -250,7 +250,7 @@ async function validerModifModale() {
 }
 
 // --- LIVRE D'OR ---
-
+/**
 async function ajouterCommentaireDirect() {
     const com = document.getElementById('commentaireSaisieSeule').value.trim();
     const nom = document.getElementById('nomPersonne').value.trim();
@@ -274,6 +274,42 @@ async function ajouterCommentaireDirect() {
         await chargerDonnees();
     } catch (e) { alert("Erreur lors de l'envoi"); }
     finally { btn.disabled = false; }
+}
+**/
+async function ajouterCommentaireDirect() {
+    const com = document.getElementById('commentaireSaisieSeule').value.trim();
+    const nom = document.getElementById('nomPersonne').value.trim();
+
+    if (!nom) return alert("Indiquez votre prénom en haut de page !");
+    if (!com) return alert("Le message est vide...");
+
+    const btn = document.getElementById('btnCom');
+    
+    // 1. On stocke le texte actuel ("Publier" par exemple)
+    const texteOriginal = btn.innerText; 
+    
+    // 2. On désactive et on change le texte
+    btn.disabled = true;
+    btn.innerText = "Envoi...";
+    
+    try {
+        await fetch(API_URL, { 
+            method: 'POST', 
+            body: JSON.stringify({ 
+                action: "insertCommentaire", 
+                nom: nom, 
+                commentaire: com 
+            }) 
+        });
+        document.getElementById('commentaireSaisieSeule').value = "";
+        await chargerDonnees();
+    } catch (e) { 
+        alert("Erreur lors de l'envoi"); 
+    } finally { 
+        // 3. Quoi qu'il arrive, on réactive et on remet le texte d'origine
+        btn.disabled = false; 
+        btn.innerText = texteOriginal; 
+    }
 }
 mettreAJourCompteARebours();
 chargerDonnees();
