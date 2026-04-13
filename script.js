@@ -215,6 +215,61 @@ function mettreAJourCompteARebours() {
     const jours = Math.floor(diff / (1000 * 60 * 60 * 24));
     if(document.getElementById("countdown")) document.getElementById("countdown").innerText = diff > 0 ? `J-${jours} avant la cousinade !` : "C'est le jour J ! 🎉";
 }
+// --- ÉDITION DES PLATS ---
 
+function ouvrirModifPlat(id) {
+    const p = plats.find(x => x.id === id);
+    if (!p) return;
+
+    idEnEditionModale = id;
+    document.getElementById('editPlatNom').value = p.plat;
+    document.getElementById('editPlatParts').value = p.parts;
+    document.getElementById('editPlatCat').value = p.categorie;
+    document.getElementById('modalEdition').style.display = "block";
+}
+
+async function validerModifModale() {
+    const pOriginal = plats.find(x => x.id === idEnEditionModale);
+    const data = {
+        action: "update",
+        rowId: idEnEditionModale,
+        browserId: browserId,
+        nom: pOriginal.nom,
+        convives: pOriginal.convives,
+        midi: pOriginal.midi,
+        soir: pOriginal.soir,
+        plat: document.getElementById('editPlatNom').value,
+        parts: document.getElementById('editPlatParts').value,
+        categorie: document.getElementById('editPlatCat').value,
+        allergies: pOriginal.allergies
+    };
+
+    fermerModale();
+    await fetch(API_URL, { method: 'POST', body: JSON.stringify(data) });
+    await chargerDonnees();
+}
+
+// --- LIVRE D'OR ---
+
+async function ajouterCommentaireDirect() {
+    const com = document.getElementById('commentaireSaisieSeule').value.trim();
+    const nom = document.getElementById('nomPersonne').value.trim();
+
+    if (!nom) return alert("Indiquez votre prénom en haut de page !");
+    if (!com) return alert("Le message est vide...");
+
+    const btn = document.getElementById('btnCom');
+    btn.disabled = true;
+
+    try {
+        await fetch(API_URL, { 
+            method: 'POST', 
+            body: JSON.stringify({ action: "insertCommentaire", nom: nom, commentaire: com }) 
+        });
+        document.getElementById('commentaireSaisieSeule').value = "";
+        await chargerDonnees();
+    } catch (e) { alert("Erreur lors de l'envoi"); }
+    finally { btn.disabled = false; }
+}
 mettreAJourCompteARebours();
 chargerDonnees();
