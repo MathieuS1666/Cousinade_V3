@@ -2,7 +2,7 @@
  * COUSINADE BOB 2026 - LOGIQUE FRONTEND
  */
 
-const API_URL = "https://script.google.com/macros/s/AKfycbzd6EyIoMr05mbL8vEZcRb3J_tWwkUvbE5xLBZaNf7H8yJyKoQwK4lxAzsolkev1fpI/exec"; 
+const API_URL = "https://script.google.com/macros/s/AKfycbxkRhcfFKMPlLmCFAItNSr0g1G8vz4qygXet4u9vMa8NKSOfB9epUyzhwZMdcKSDlyM/exec"; 
 const DATE_COUSINADE = new Date("2026-05-09T12:00:00");
 
 let plats = [];
