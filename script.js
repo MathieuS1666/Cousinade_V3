@@ -42,46 +42,61 @@ function renderAll() {
 async function ajouterParticipant() {
     const btn = document.getElementById('btnInscrire');
     const nom = document.getElementById('nomPersonne').value.trim();
-    const convives = document.getElementById('nbConvives').value || 0;
-    
-    // On force la conversion en booléen explicite
+    const convives = parseFloat(document.getElementById('nbConvives').value);
     const midi = document.getElementById('checkMidi').checked;
     const soir = document.getElementById('checkSoir').checked;
+    const allergies = document.getElementById('allergieSaisie').value.trim();
 
-    if (!nom) return alert("Le prénom est requis !");
+    // 1. BLOCAGE : Prénom vide
+    if (!nom) {
+        alert("Veuillez saisir votre prénom.");
+        return;
+    }
 
+    // 2. BLOCAGE : Nombre de participants absent ou égal à 0
+    // On vérifie si c'est un nombre valide (isNaN) et s'il est supérieur à 0
+    if (isNaN(convives) || convives <= 0) {
+        alert("Veuillez indiquer combien de personnes seront présentes (ex: 1 ou 1.5).");
+        return;
+    }
+
+    // 3. BLOCAGE : Aucune case cochée (Midi ET Soir sont faux)
+    if (!midi && !soir) {
+        alert("Veuillez cocher au moins un repas (Midi ou Soir) pour confirmer votre présence.");
+        return;
+    }
+
+    // Si on arrive ici, c'est que toutes les conditions sont remplies
     const fields = {
         action: "insert",
         browserId: browserId,
         nom: nom,
         convives: convives,
-        midi: midi, // Sera envoyé comme true ou false
-        soir: soir, // Sera envoyé comme true ou false
+        midi: midi,
+        soir: soir,
         plat: "null",
         parts: 0,
         categorie: "autre",
-        allergies: document.getElementById('allergieSaisie').value.trim()
+        allergies: allergies
     };
 
-    if (btn) {
-        btn.disabled = true;
-        btn.innerText = "Inscription...";
-    }
+    btn.disabled = true;
+    btn.innerText = "Inscription en cours...";
 
     try {
-        await fetch(API_URL, { method: 'POST', body: JSON.stringify(fields) });
-        await chargerDonnees();
-        alert("Inscription réussie !");
-    } catch (e) { 
-        alert("Erreur de connexion"); 
-    } finally { 
-        if (btn) {
-            btn.disabled = false;
-            btn.innerText = "Valider mon inscription";
+        const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(fields) });
+        if (response.ok) {
+            await chargerDonnees();
+            // Optionnel : un petit message de succès
+            alert("Votre inscription a bien été enregistrée !");
         }
+    } catch (e) { 
+        alert("Erreur de connexion lors de l'inscription."); 
+    } finally { 
+        btn.disabled = false; 
+        btn.innerText = "Valider mon inscription";
     }
 }
-
 // --- 2. STATISTIQUES ET AFFICHAGE ---
 
 function calculerStatsGlobales() {
