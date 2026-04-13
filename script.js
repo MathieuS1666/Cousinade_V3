@@ -40,7 +40,7 @@ function renderAll() {
 }
 
 // --- 2. STATISTIQUES ET AFFICHAGE ---
-
+/**
 function calculerStatsGlobales() {
     let stats = { midi: 0, soir: 0, totalParts: 0, apero: 0, entree: 0, platPrincipal: 0, dessert: 0 };
 
@@ -83,7 +83,56 @@ function calculerStatsGlobales() {
         }).join('');
     }
 }
+**/
+function calculerStatsGlobales() {
+    let totalMidi = 0;
+    let totalSoir = 0;
+    let totalConv = 0;
+    const vus = new Set();
+    
+    plats.forEach(p => {
+        if (!vus.has(p.ownerId)) {
+            const nb = parseFloat(p.convives || 0);
+            // Vérification souple (booléen ou string "true")
+            if (p.midi === true || p.midi === "true") totalMidi += nb;
+            if (p.soir === true || p.soir === "true") totalSoir += nb;
+            totalConv += nb;
+            vus.add(p.ownerId);
+        }
+    });
 
+    if(document.getElementById('stat-convives')) document.getElementById('stat-convives').innerText = totalConv;
+    if(document.getElementById('stat-midi')) document.getElementById('stat-midi').innerText = totalMidi;
+    if(document.getElementById('stat-soir')) document.getElementById('stat-soir').innerText = totalSoir;
+    if(document.getElementById('stat-total')) document.getElementById('stat-total').innerText = plats.reduce((s, p) => s + parseInt(p.parts || 0), 0);
+    if(document.getElementById('stat-apero')) document.getElementById('stat-apero').innerText = counts.apero;
+    if(document.getElementById('stat-entrees')) document.getElementById('stat-entrees').innerText = counts.entree;
+    if(document.getElementById('stat-plats')) document.getElementById('stat-plats').innerText = counts.platPrincipal;
+    if(document.getElementById('stat-desserts')) document.getElementById('stat-desserts').innerText = counts.dessert;
+    if(document.getElementById('total-apero')) document.getElementById('total-apero').innerText = counts.apero;
+    if(document.getElementById('total-entree')) document.getElementById('total-entree').innerText = counts.entree;
+    if(document.getElementById('total-platPrincipal')) document.getElementById('total-platPrincipal').innerText = counts.platPrincipal;
+    if(document.getElementById('total-dessert')) document.getElementById('total-dessert').innerText = counts.dessert;
+    if(document.getElementById('total-autre')) document.getElementById('total-autre').innerText = counts.autre;
+    // Affichage Liste des Présents
+    const unique = {};
+    plats.forEach(p => { if (!unique[p.nom]) unique[p.nom] = p; });
+    
+    document.getElementById('listePresents').innerHTML = Object.values(unique).map(p => {
+        let labels = [];
+        if (p.midi === true || p.midi === "TRUE") labels.push("☀️M");
+        if (p.soir === true || p.soir === "TRUE") labels.push("🌙S");
+        
+        return `
+            <span class="badge-present">
+                <strong>${p.nom}</strong> : ${p.convives}<br>
+                <small>${labels.join(' / ')}</small>
+                ${p.ownerId === browserId ? `<button onclick="ouvrirModifConvives(${p.id})" class="btn-edit-small">✏️</button>` : ''}
+            </span>
+        `;
+    }).join('');
+   verifierSiDejaInscrit();
+}
 // CETTE FONCTION MANQUAIT POUR LE BOUTON ✏️
 function ouvrirModifConvivesDepuisPart(oId) {
     // On cherche dans les participants d'abord
