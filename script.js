@@ -37,6 +37,7 @@ function renderAll() {
     afficherLivreDor();
     calculerStatsGlobales();
     verifierSiDejaInscrit();
+    afficherAllergies();
 }
 
 async function ajouterParticipant() {
