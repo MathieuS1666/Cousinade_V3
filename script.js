@@ -260,11 +260,15 @@ async function ajouterCommentaireDirect() {
 
     const btn = document.getElementById('btnCom');
     btn.disabled = true;
-
+    btn.innerText = "Envoi...";
+    
     try {
         await fetch(API_URL, { 
             method: 'POST', 
-            body: JSON.stringify({ action: "insertCommentaire", nom: nom, commentaire: com }) 
+            body: JSON.stringify({ 
+                action: "insertCommentaire", 
+                nom: nom, 
+                commentaire: com }) 
         });
         document.getElementById('commentaireSaisieSeule').value = "";
         await chargerDonnees();
