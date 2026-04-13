@@ -2,7 +2,7 @@
  * COUSINADE BOB 2026 - LOGIQUE FRONTEND
  */
 
-const API_URL = "https://script.google.com/macros/s/AKfycbx5QqsLS5i8rC1G90JeJ2MxlDv_9_etefWJIncIiaPcH33pk4XOTzqmX5vu8EHvyHj2/exec"; 
+const API_URL = "https://script.google.com/macros/s/AKfycbydO0xiUo0byZQQxrArT6_ZeCyxz7PtsMOY-3G_oMLx-vqUs6AEuGmLc2otQKECg7Jb/exec"; 
 const DATE_COUSINADE = new Date("2026-05-09T12:00:00");
 
 let plats = [];
@@ -43,7 +43,8 @@ async function ajouterParticipant() {
     
     const btn = document.getElementById('btnInscrire');
     const nom = document.getElementById('nomPersonne').value.trim();
-    const convives = parseFloat(document.getElementById('nbConvives').value);
+    let convivesInput = document.getElementById('nbConvives').value.replace(',', '.');
+    const convives = parseFloat(convivesInput);
     const midi = document.getElementById('checkMidi').checked;
     const soir = document.getElementById('checkSoir').checked;
     const allergies = document.getElementById('allergieSaisie').value.trim();
