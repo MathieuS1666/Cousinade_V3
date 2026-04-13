@@ -136,16 +136,25 @@ button {
 }
 
 .liste-presents, .livre-dor-section {
+    display: block !important;
+    width: 95%;
+    max-width: 1260px;
+    margin: 30px auto !important;
     margin-top: 20px;
     background: white;
     padding: 20px;
     border-radius: 12px;
     text-align: center;
+    float: none; /* Supprime tout flottement résiduel */
 }
 
 @media (max-width: 1000px) {
     .container { flex-direction: column; }
-    .formulaire { border-right: none; position: static; }
+    .formulaire { 
+        border-right: none;
+        margin-bottom: 20px;
+        position: static !important;
+    }
 }
 .total-badge {
     float: right;
