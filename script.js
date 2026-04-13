@@ -102,14 +102,15 @@ async function ajouterParticipant() {
 function calculerStatsGlobales() {
     let stats = { midi: 0, soir: 0, totalParts: 0, apero: 0, entree: 0, platPrincipal: 0, dessert: 0 };
 
+    // 1. CALCUL DES STATS (La barre de progression en haut)
     listeParticipants.forEach(p => {
         const nb = parseFloat(p.convives || 0);
-        // On utilise la même logique que tes stats globales
-const midiOk = (p.midi === true || String(p.midi).toUpperCase() === "TRUE");
-const soirOk = (p.soir === true || String(p.soir).toUpperCase() === "TRUE");
+        // On convertit les valeurs en booléen propre pour être sûr
+        const estMidi = (p.midi === true || String(p.midi).toUpperCase() === "TRUE" || p.midi === "true");
+        const estSoir = (p.soir === true || String(p.soir).toUpperCase() === "TRUE" || p.soir === "true");
 
-if (midiOk) labels.push("☀️M");
-if (soirOk) labels.push("🌙S");
+        if (estMidi) stats.midi += nb;
+        if (estSoir) stats.soir += nb;
     });
 
     plats.forEach(p => {
@@ -120,6 +121,7 @@ if (soirOk) labels.push("🌙S");
         }
     });
 
+    // Mise à jour des textes en haut
     const updateText = (id, val) => { if(document.getElementById(id)) document.getElementById(id).innerText = val; };
     updateText('stat-midi', stats.midi);
     updateText('stat-soir', stats.soir);
@@ -129,25 +131,24 @@ if (soirOk) labels.push("🌙S");
     updateText('stat-plats', stats.platPrincipal);
     updateText('stat-desserts', stats.dessert);
 
+    // 2. AFFICHAGE DE LA LISTE DES PRÉSENTS (Les badges)
     const listeElem = document.getElementById('listePresents');
     if (listeElem) {
         listeElem.innerHTML = listeParticipants.map(p => {
             let labels = [];
-            if (p.midi === true || p.midi === "TRUE") labels.push("☀️M");
-            if (p.soir === true || p.soir === "TRUE") labels.push("🌙S");
+            
+            // LOGIQUE DE VALIDATION ROBUSTE
+            const estMidi = (p.midi === true || String(p.midi).toUpperCase() === "TRUE" || p.midi === "true");
+            const estSoir = (p.soir === true || String(p.soir).toUpperCase() === "TRUE" || p.soir === "true");
+            const nbConvives = p.convives || 0;
+
+            if (estMidi) labels.push("☀️M");
+            if (estSoir) labels.push("🌙S");
             
             return `
-                <div class="badge-present" 
-                style="
-                background:white; 
-                padding:10px; 
-                border-radius:8px; 
-                margin:5px; 
-                display:inline-block; 
-                border:1px solid #feca57; 
-                min-width:120px;">
-                    <strong>${p.nom || "Inconnu"}</strong> : ${p.convives || 0}<br>
-                    <small>${labels.join(' / ') || 'Non précisé'}</small>
+                <div class="badge-present" style="background:white; padding:10px; border-radius:8px; margin:5px; display:inline-block; border:1px solid #feca57; min-width:120px;">
+                    <strong>${p.nom || "Inconnu"}</strong> : ${nbConvives}<br>
+                    <small>${labels.length > 0 ? labels.join(' / ') : 'Non précisé'}</small>
                     ${p.ownerId === browserId ? `<button onclick="ouvrirModifConvivesDepuisPart('${p.ownerId}')" class="btn-edit-small">✏️</button>` : ''}
                 </div>`;
         }).join('');
