@@ -130,7 +130,14 @@
         <button onclick="ajouterPlat()" id="btnAjouter" style="background-color: #27ae60;">Valider</button>
         <button onclick="annulerEdition()" id="btnAnnuler">Annuler</button>
     </div>
-
+        <div id="sectionAllergies" style="background: #fdf2f2; padding: 15px; border-radius: 10px; border: 1px solid #e74c3c; margin-top: 20px;">
+            <h3 style="margin-top:0; font-size: 1em; color: #c0392b;">🚫 Allergies & Régimes</h3>
+            <p style="font-size: 0.8em; color: #666;">Une contrainte alimentaire ? (Végétarien, Sans Gluten, Noix...)</p>
+            <input type="text" id="allergieSaisieSeule" placeholder="Ex: Sans gluten, pas de porc...">
+            <button onclick="mettreAJourAllergies()" id="btnAllergie" style="background: #e74c3c; color: white; font-size: 0.9em; margin-top: 5px;">
+                Enregistrer mes préférences
+        </button>
+    </div>
     <div id="sectionLivreDor" style="background: #fff9e6; padding: 15px; border-radius: 10px; border: 1px solid #feca57;">
         <h3 style="margin-top:0; font-size: 1em; color: #d35400;">📖 Livre d'Or</h3>
         <textarea id="commentaireSaisieSeule" placeholder="Un petit mot doux ou une info importante ?" style="height: 80px;"></textarea>
