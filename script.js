@@ -40,25 +40,27 @@ function renderAll() {
 }
 
 async function ajouterParticipant() {
-    const btn = document.getElementById('btnInscrire'); // On supposera cet ID pour ton nouveau bouton
+    const btn = document.getElementById('btnInscrire');
     const nom = document.getElementById('nomPersonne').value.trim();
     const convives = document.getElementById('nbConvives').value || 0;
+    
+    // On force la conversion en booléen explicite
     const midi = document.getElementById('checkMidi').checked;
     const soir = document.getElementById('checkSoir').checked;
 
-    if (!nom) return alert("Le prénom est requis pour s'inscrire !");
+    if (!nom) return alert("Le prénom est requis !");
 
     const fields = {
         action: "insert",
         browserId: browserId,
         nom: nom,
         convives: convives,
-        midi: midi,
-        soir: soir,
-        plat: "null", // Valeur par défaut car pas de plat ici
+        midi: midi, // Sera envoyé comme true ou false
+        soir: soir, // Sera envoyé comme true ou false
+        plat: "null",
         parts: 0,
         categorie: "autre",
-        allergies: document.getElementById('allergieSaisie').value.trim() || ""
+        allergies: document.getElementById('allergieSaisie').value.trim()
     };
 
     if (btn) {
@@ -68,9 +70,8 @@ async function ajouterParticipant() {
 
     try {
         await fetch(API_URL, { method: 'POST', body: JSON.stringify(fields) });
-        // On ne vide pas le nom car il servira pour ajouter un plat après
         await chargerDonnees();
-        alert("Inscription réussie ! Vous pouvez maintenant ajouter un plat si vous le souhaitez.");
+        alert("Inscription réussie !");
     } catch (e) { 
         alert("Erreur de connexion"); 
     } finally { 
