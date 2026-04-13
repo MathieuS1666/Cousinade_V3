@@ -71,8 +71,8 @@ function calculerStatsGlobales() {
     if (listeElem) {
         listeElem.innerHTML = listeParticipants.map(p => {
             let labels = [];
-            if (p.midi === true || p.midi === "true") labels.push("☀️M");
-            if (p.soir === true || p.soir === "true") labels.push("🌙S");
+            if (p.midi === true || p.midi === "TRUE") labels.push("☀️M");
+            if (p.soir === true || p.soir === "TRUE") labels.push("🌙S");
             
             return `
                 <div class="badge-present" style="background:white; padding:10px; border-radius:8px; margin:5px; display:inline-block; border:1px solid #feca57; min-width:120px;">
