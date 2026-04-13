@@ -46,8 +46,8 @@ function calculerStatsGlobales() {
 
     listeParticipants.forEach(p => {
         const nb = parseFloat(p.convives || 0);
-        if (p.midi === true || p.midi === "true" || p.midi === "TRUE") stats.midi += nb;
-        if (p.soir === true || p.soir === "true" || p.soir === "TRUE") stats.soir += nb;
+        if (p.midi === true || p.midi === "true" || p.midi === "TRUE" || String(p.midi).toUpperCase() === "TRUE") stats.midi += nb;
+        if (p.soir === true || p.soir === "true" || p.soir === "TRUE"|| String(p.soir).toUpperCase() === "TRUE") stats.soir += nb;
     });
 
     plats.forEach(p => {
