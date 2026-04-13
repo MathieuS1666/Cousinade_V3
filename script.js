@@ -48,7 +48,7 @@ async function ajouterParticipant() {
     const convives = parseFloat(convivesInput);
     const midi = document.getElementById('checkMidi').checked;
     const soir = document.getElementById('checkSoir').checked;
-    const allergies = document.getElementById('allergieSaisie').value.trim();
+    const allergies = document.getElementById('allergieSaisieSeule') ? document.getElementById('allergieSaisieSeule').value.trim() : "";
 
     // 1. BLOCAGE : Prénom vide
     if (!nom) {
