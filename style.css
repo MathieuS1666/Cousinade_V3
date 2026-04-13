@@ -210,3 +210,31 @@ button {
     font-size: 0.75em;
     margin-top: 2px;
 }
+/* Style pour le titre du Livre d'Or */
+.livre-dor-section h2 {
+    position: relative;
+    margin-bottom: 40px; /* Grand écart pour l'élégance */
+    padding-bottom: 15px;
+}
+
+/* La petite ligne stylée en dessous */
+.livre-dor-section h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%); /* Pour centrer la ligne */
+    width: 100px; /* Largeur de la ligne */
+    height: 3px;
+    background: linear-gradient(to right, transparent, #feca57, transparent);
+    border-radius: 2px;
+}
+
+/* Optionnel : Un petit écart au-dessus du conteneur des messages 
+   pour qu'ils ne collent pas au bouton de publication */
+#livreDor {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espace constant entre chaque carte de message */
+}
