@@ -451,7 +451,29 @@ async function mettreAJourAllergies() {
         btn.innerText = "Enregistrer mes préférences";
     }
 }
+function afficherAllergies() {
+    const conteneur = document.getElementById('allergieListe');
+    const badgeTotal = document.getElementById('total-allergies');
+    
+    // On filtre les participants qui ont une allergie non vide
+    const avecAllergies = listeParticipants.filter(p => p.allergies && p.allergies.trim() !== "");
 
+    // Mise à jour du petit badge de compteur
+    if (badgeTotal) badgeTotal.innerText = avecAllergies.length;
+
+    if (avecAllergies.length === 0) {
+        conteneur.innerHTML = '<p style="color:gray; font-size:0.8em; font-style:italic; padding:10px;">Aucune allergie signalée.</p>';
+        return;
+    }
+
+    // On génère le HTML pour chaque allergie
+    conteneur.innerHTML = avecAllergies.map(p => `
+        <div class="plat-item" style="border-left: 4px solid #e74c3c; background: #fff5f5; margin-bottom: 8px; padding: 10px; border-radius: 6px; display: block;">
+            <div style="font-weight: bold; color: #c0392b; font-size: 0.9em;">${p.nom}</div>
+            <div style="font-size: 0.85em; color: #333;">${p.allergies}</div>
+        </div>
+    `).join('');
+}
 function ouvrirAdmin() {
     const pass = prompt("Accès réservé. Veuillez saisir le mot de passe :");
     
