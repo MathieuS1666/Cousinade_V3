@@ -230,3 +230,12 @@ button {
     .plat-categories { flex-wrap: wrap; justify-content: center; }
     .plat-categories .repas-option { flex: 0 1 30%; }
 }
+/* Espacement entre les blocs du formulaire */
+.formulaire > div {
+    margin-bottom: 25px; /* Espace de 25px sous chaque bloc */
+}
+
+/* On retire la marge du dernier élément pour éviter un trou inutile en bas */
+.formulaire > div:last-child {
+    margin-bottom: 0;
+}
