@@ -177,12 +177,23 @@ button {
 
 .badge-present {
     display: inline-block;
+    vertical-align: top; /* Alignement pour le mode inline */
     background: #f0f0f0;
     padding: 10px 15px;
     margin: 5px;
     border-radius: 20px;
     font-size: 0.9em;
     border: 1px solid #ddd;
+    height: fit-content; /* Empêche le badge de s'étirer */
+}
+
+/* On ajuste le conteneur pour être sûr */
+.liste-presents {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start; /* Aligne les badges par leur sommet */
+    gap: 10px;
 }
 .badge-present small { display: block; color: #666; font-size: 0.75em; margin-top: 2px; }
 
