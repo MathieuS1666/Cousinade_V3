@@ -88,6 +88,7 @@ function calculerStatsGlobales() {
     });
 
     plats.forEach(p => {
+        if (String(p.ownerId).toLowerCase() === "traiteur") return;
         if (p.plat && p.plat !== "null" && p.plat !== "") {
             const nbParts = parseFloat(p.parts || 0);
             stats.totalParts += nbParts;
@@ -124,6 +125,31 @@ function calculerStatsGlobales() {
                     ${p.ownerId === browserId ? `<button onclick="ouvrirModifConvivesDepuisPart('${p.ownerId}')" class="btn-edit-small">✏️</button>` : ''}
                 </div>`;
         }).join('');
+    }
+ // --- C. LOGIQUE DE L'ARDOISE TRAITEUR (AJOUT) ---
+    const sectionArdoise = document.getElementById('menuTraiteurSection');
+    const listeArdoise = document.getElementById('menuTraiteurListe');
+
+    if (sectionArdoise && listeArdoise) {
+        // On récupère toutes les lignes de plats dont l'ownerId est "traiteur"
+        const platsTraiteur = plats.filter(p => String(p.ownerId).toLowerCase() === "traiteur");
+
+        if (platsTraiteur.length > 0) {
+            sectionArdoise.style.display = 'block';
+            
+            // On construit la liste ligne par ligne
+            listeArdoise.innerHTML = platsTraiteur.map(p => {
+                let emoji = "✨";
+                if (p.categorie === "entree") emoji = "🥗";
+                if (p.categorie === "platPrincipal") emoji = "🥘";
+                if (p.categorie === "dessert") emoji = "🍰";
+                if (p.categorie === "apero") emoji = "🍹";
+                
+                return `<div style="margin-bottom:5px;">${emoji} ${p.plat}</div>`;
+            }).join('');
+        } else {
+            sectionArdoise.style.display = 'none';
+        }
     }
 }
 // FONCTION D4AFFICHAGE DES PLATS DANS LES CADRES
