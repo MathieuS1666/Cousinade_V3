@@ -230,12 +230,16 @@ button {
     .plat-categories { flex-wrap: wrap; justify-content: center; }
     .plat-categories .repas-option { flex: 0 1 30%; }
 }
-/* Espacement entre les blocs du formulaire */
-.formulaire > div {
-    margin-bottom: 25px; /* Espace de 25px sous chaque bloc */
+/* On cible précisément les gros blocs pour forcer l'espace */
+.inscription-repas-box, 
+#champsPlat, 
+.preferences-alimentaires, 
+.liste-presents, 
+.livre-dor-section {
+    margin-bottom: 30px !important; /* Le !important force le respect de la règle sur mobile */
 }
 
-/* On retire la marge du dernier élément pour éviter un trou inutile en bas */
-.formulaire > div:last-child {
-    margin-bottom: 0;
+/* Optionnel : On s'assure que le dernier bloc de la page n'a pas de marge inutile */
+.livre-dor-section {
+    margin-bottom: 50px !important; /* Un peu plus d'espace en bas de page pour le confort */
 }
