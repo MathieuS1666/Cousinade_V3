@@ -556,3 +556,35 @@ button {
     flex-direction: column;
     gap: 15px; /* Espace constant entre chaque carte de message */
 }
+/* S'assure que les boutons radio dans plat-categories sont aussi cachés */
+.plat-categories input[type="radio"] {
+    display: none;
+}
+
+/* On réutilise la mise en page flex pour aligner les 5 cadres */
+.plat-categories {
+    display: flex;
+    flex-wrap: wrap; /* Permet de passer à la ligne sur mobile */
+    gap: 10px;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+/* Ajustement de la taille pour qu'ils rentrent bien à 5 sur une ligne */
+.plat-categories .repas-option {
+    flex: 1;
+    min-width: 80px; 
+    max-width: 110px;
+}
+
+/* Style spécifique quand un RADIO est coché (on garde ton orange actuel) */
+.plat-categories input[type="radio"]:checked + .repas-card {
+    border-color: #27ae60; /* Ici j'ai mis le VERT de ton bouton valider pour différencier du repas */
+    background-color: #ebf9f0;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.plat-categories input[type="radio"]:checked + .repas-card .label-text {
+    color: #27ae60;
+}
