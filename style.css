@@ -203,17 +203,17 @@ button {
     align-items: flex-start;  /* FORCE l'alignement par le HAUT */
     gap: 10px;
 }
-#livreDor {
+/*#livreDor {
     margin-top: 30px;
     display: flex;
     flex-direction: column;
     gap: 15px;
-    text-align: left; /* Aligne le contenu des messages à gauche */
+    text-align: left; 
     width: 100%;
-    max-width: 800px; /* Optionnel : pour éviter que les messages soient trop larges sur grand écran */
+    max-width: 800px; 
     margin-left: auto;
-    margin-right: auto; /* Ces deux lignes centrent le BLOC entier, mais pas le texte dedans */
-}
+    margin-right: auto; 
+}*/
 
 /* On s'assure que chaque carte de message est bien calée */
 .message-card {
