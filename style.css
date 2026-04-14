@@ -73,8 +73,6 @@ textarea { resize: vertical; min-height: 60px; }
     border: 1px solid #e67e22;
 }
 
-.plat-categories { margin: 15px 0; display: flex; flex-wrap: wrap; gap: 8px; }
-
 .plat-categories label {
     display: flex;
     align-items: center;
@@ -223,7 +221,7 @@ button {
     background: white;
     border: 2px solid #ddd;
     border-radius: 12px;
-    padding: 12px 5px;
+    padding: 8px 4px;
     display: flex;
     flex-direction: column; /* Emoji en haut, texte en dessous */
     align-items: center;
@@ -381,8 +379,6 @@ textarea { resize: vertical; min-height: 60px; }
     margin: 10px 0;
     border: 1px solid #e67e22;
 }
-
-.plat-categories { margin: 15px 0; display: flex; flex-wrap: wrap; gap: 8px; }
 
 .plat-categories label {
     display: flex;
@@ -564,9 +560,9 @@ button {
 /* On réutilise la mise en page flex pour aligner les 5 cadres */
 .plat-categories {
     display: flex;
-    flex-wrap: wrap; /* Permet de passer à la ligne sur mobile */
-    gap: 10px;
-    justify-content: center;
+    flex-wrap: nowrap; 
+    gap: 8px;
+    justify-content: space-between;
     margin: 15px 0;
 }
 
@@ -588,3 +584,11 @@ button {
 .plat-categories input[type="radio"]:checked + .repas-card .label-text {
     color: #27ae60;
 }
+@media (max-width: 600px) {
+    .plat-categories {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .plat-categories .repas-option {
+        flex: 0 1 30%; /* 3 cases par ligne sur petit téléphone */
+    }
