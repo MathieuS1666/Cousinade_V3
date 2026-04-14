@@ -56,6 +56,7 @@ body {
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.60);
     border-radius: 12px;
+    gap: 20px; /* Ajoute de l'espace entre le formulaire et les réponses */
 }
 
 .formulaire { 
@@ -67,7 +68,12 @@ body {
     height: fit-content; 
 }
 
-.reponses { flex: 3; padding: 20px; }
+.reponses { 
+    flex: 3; 
+    padding: 20px; 
+    display: flex; 
+    flex-direction: column; /* Force le menu traiteur et les colonnes à s'empiler verticalement */
+}
 
 /* ============================================================
    4. FORMULAIRE & INPUTS 
@@ -150,14 +156,20 @@ button {
 /* ============================================================
    6. AFFICHAGE DES RÉSULTATS & PRÉSENTS
    ============================================================ */
-.colonnes { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+.colonnes { 
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+   gap: 15px; 
+   width: 100%;
+}
 
 .colonne {
-    background: #fdfdfd;
-    padding: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
     border-radius: 8px;
     border: 1px solid #eee;
-    border-top: 5px solid #ccc;
+    border-top: 5px solid #ccc; /* La couleur sera surchargée par l'inline style HTML */
+    height: fit-content;
 }
 
 .plat-item {
@@ -278,14 +290,21 @@ button {
     .plat-categories { flex-wrap: wrap; justify-content: center; }
     .plat-categories .repas-option { flex: 0 1 30%; }
 }
-.menu-traiteur {
-    background: #2c3e50;
+/* ============================================================
+   10. MENU TRAITEUR (Correction)
+   ============================================================ */
+#menuTraiteurSection {
+    background: #2c3e50; /* Ton bleu sombre */
     color: white;
     padding: 20px;
     border-radius: 12px;
     margin-bottom: 30px;
     border: 2px solid #feca57;
+    width: 100%;
+    box-sizing: border-box;
+    display: none; /* Sera affiché par le JS si données présentes */
 }
+
 .traiteur-header {
     font-size: 1.3em;
     font-weight: bold;
@@ -295,17 +314,23 @@ button {
     border-bottom: 1px solid rgba(254, 202, 87, 0.3);
     padding-bottom: 10px;
 }
+
 .menu-item-traiteur {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    font-size: 0.95em;
+    gap: 15px;
+    margin-bottom: 10px;
+    padding: 8px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 6px;
 }
-.plat-type-traiteur { color: #48dbfb; font-weight: bold; }
-.menu-info {
-    font-size: 0.8em;
-    text-align: center;
-    margin-top: 15px;
-    font-style: italic;
-    color: #bdc3c7;
+
+.plat-type-traiteur { 
+    color: #48dbfb; 
+    font-weight: bold; 
+    min-width: 120px;
+    text-transform: uppercase;
+}
+
+.plat-nom-traiteur {
+    color: #ffffff;
 }
