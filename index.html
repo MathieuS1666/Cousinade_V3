@@ -12,14 +12,17 @@
 <div id="modalConvives" style="display:none; position:fixed; z-index:2000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.7); animation: fadeIn 0.3s;">
     <div style="background:white; margin:15% auto; padding:20px; width:90%; max-width:350px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.5); animation: slideUp 0.3s;">
         <h3 style="margin-top:0;">👥 <span id="titreModalConvives"></span></h3>
+        
         <label style="font-size:0.8em; color:gray;">combien serez-vous ? :</label>
         <input type="number" id="editNbConvives" min="0" step="0.5" style="width:100%; padding:10px; margin:10px 0; border-radius:5px; border:1px solid #ccc;">
         <p style="font-size:0.75em; color:gray; margin-top:-5px; margin-bottom:15px;">Adulte=1, Enfant=0.5</p>
+
         <label style="font-size:0.8em; color:gray; font-weight:bold;">Repas prévus :</label>
         <div style="display:flex; justify-content: space-around; background:#f9f9f9; padding:10px; border-radius:5px; border:1px solid #eee; margin-top:5px;">
             <label style="cursor:pointer; font-size:0.9em;"><input type="checkbox" id="editCheckMidi"> ☀️ Midi</label>
             <label style="cursor:pointer; font-size:0.9em;"><input type="checkbox" id="editCheckSoir"> 🌙 Soir</label>
         </div>
+
         <div style="display:flex; gap:10px; margin-top:20px;">
             <button onclick="validerModifConvives()" style="background:#d35400; color:white; flex:1; padding:10px; border:none; border-radius:5px; font-weight:bold; cursor:pointer;">Enregistrer</button>
             <button onclick="fermerModaleConvives()" style="background:#95a5a6; color:white; flex:1; padding:10px; border:none; border-radius:5px; cursor:pointer;">Annuler</button>
@@ -32,20 +35,23 @@
         <h3 style="margin-top:0;">📖 Modifier votre message</h3>
         <label style="font-size:0.8em; color:gray;">Votre petit mot :</label>
         <textarea id="editCom" style="width:100%; height:150px; padding:10px; margin:10px 0; border-radius:5px; border:1px solid #ccc; font-family:inherit; resize:vertical;"></textarea>
+
         <div style="display:flex; gap:10px; margin-top:15px;">
             <button onclick="validerModifCom()" style="background:#feca57; color:#2c3e50; flex:1; font-weight:bold;">Mettre à jour</button>
             <button onclick="fermerModaleLivreDor()" style="background:#95a5a6; color:white; flex:1;">Annuler</button>
         </div>
     </div>
 </div>
-
 <div id="modalEdition" style="display:none; position:fixed; z-index:2000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.7);">
     <div style="background:white; margin:10% auto; padding:20px; width:90%; max-width:400px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.5);">
         <h3 style="margin-top:0;">Modifier le plat</h3>
+
         <label style="font-size:0.8em;">Nom du plat :</label>
         <input type="text" id="editPlatNom">
+
         <label style="font-size:0.8em;">Nombre de parts :</label>
         <input type="number" id="editPlatParts" min="0">
+
         <label style="font-size:0.8em;">Catégorie :</label>
         <select id="editPlatCat" style="width:100%; padding:10px; margin:10px 0; border-radius:5px; border:1px solid #ccc;">
             <option value="apero">🍹 Apéro</option>
@@ -54,13 +60,13 @@
             <option value="dessert">🍰 Dessert</option>
             <option value="autre">📦 Autre</option>
         </select>
+
         <div style="display:flex; gap:10px; margin-top:15px;">
             <button onclick="validerModifModale()" style="background:#27ae60; color:white;">Enregistrer</button>
             <button onclick="fermerModale()" style="background:#e74c3c; color:white;">Annuler</button>
         </div>
     </div>
 </div>
-
 <div class="header-info">
     <div id="countdown">Cousinade 2026 !</div>
     <div class="stats-bar">
@@ -76,66 +82,140 @@
 </div>
 
 <div class="container">
-    <div class="formulaire" id="form-scroll" style="background-color: rgba(255, 255, 224, 0.7); border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-        
-        <h1 style="text-align:center; color: #660503;">Cousinade 2026</h1>
+    <div class="formulaire" id="form-scroll" style="
+        background-color: rgba(255, 255, 224, 0.7);
+        border-radius: 15px; 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1); ">
+    <h1 style="text-align:center; color: #660503;">Cousinade 2026</h1>
         <p style="text-align:center;">Afin de s'organiser au mieux pour cette journée merci d'indiquer:</p>
-        
-        <p style="text-align:center;">Entrez votre/vos prénom(s)</p>
-        <input type="text" id="nomPersonne" placeholder="Votre prénom">
+    <p style="text-align:center;">Entrez votre/vos prénom(s)</p>
+    
+    <input type="text" id="nomPersonne" placeholder="Votre prénom">
 
-        <div id="sectionPlat" style="border-bottom: 2px dashed #eee; padding-bottom: 20px; margin-bottom: 20px;">
-            <div id="boxConvives" class="convives-box">
-                <label style="font-size: 0.8em; font-weight: bold; color: #d35400;">Combien serez-vous ?:</label>
-                <input type="number" id="nbConvives" min="0" step="0.5" placeholder="Adulte=1, Enfant=0.5">
-           
-                <div class="inscription-repas-box">
-                    <p class="question-presence">Serez-vous présent :</p>
-                    <div class="repas-flex-group">
-                        <label class="repas-option">
-                            <input type="checkbox" id="checkMidi">
-                            <div class="repas-card">
-                                <span class="emoji">☀️</span>
-                                <span class="label-text">Le Midi</span>
-                            </div>
-                        </label>
-                        <label class="repas-option">
-                            <input type="checkbox" id="checkSoir">
-                            <div class="repas-card">
-                                <span class="emoji">🌙</span>
-                                <span class="label-text">Le Soir</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-                <button onclick="ajouterParticipant()" id="btnInscrire" style="background-color: #d35400; color: white; margin-top: 15px; margin-bottom: 5px;">
-                    Valider ma présence
-                </button>
-            </div> 
-            
-            <p id="msgConvivesOk" style="display:none; color: #27ae60; font-size: 0.85em; text-align: center; font-weight: bold; margin: 10px 0;">
-                ✅ Présence enregistrée
-            </p>
-            
-            <div id="champsPlat">
-                <p style="text-align:center; font-size:0.9em;">Dites-nous ce que vous apportez !</p>
-                <input type="text" id="nouveauPlat" placeholder="Nom du plat">
-                <div class="plat-categories">
-                    <label><input type="radio" name="categoriePlat" value="apero" id="apero"> Apéro</label>
-                    <label><input type="radio" name="categoriePlat" value="entree" id="entree"> Entrée</label>
-                    <label><input type="radio" name="categoriePlat" value="platPrincipal" id="platPrincipal"> Plat</label>
-                    <label><input type="radio" name="categoriePlat" value="dessert" id="dessert"> Dessert</label>
-                    <label><input type="radio" name="categoriePlat" value="autre" id="autre" checked> Autre</label>
-                </div>
-                <input type="number" id="nombreParts" min="0" placeholder="Nombre de portions">
+    <div id="sectionPlat" style="border-bottom: 2px dashed #eee; padding-bottom: 20px; margin-bottom: 20px;">
+        <div id="boxConvives" class="convives-box">
+            <label style="font-size: 0.8em; font-weight: bold; color: #d35400;">Combien serez-vous ?:</label>
+            <input type="number" id="nbConvives" min="0" step="0.5" placeholder="Adulte=1, Enfant=0.5">
+       
+        <div class="inscription-repas-box">
+    <p class="question-presence">Serez-vous présent :</p>
+    <div class="repas-flex-group">
+        <label class="repas-option">
+            <input type="checkbox" id="checkMidi">
+            <div class="repas-card">
+                <span class="emoji">☀️</span>
+                <span class="label-text">Le Midi</span>
             </div>
-
-            <button onclick="ajouterPlat()" id="btnAjouter" style="background-color: #27ae60;">Valider</button>
-            <button onclick="annulerEdition()" id="btnAnnuler">Annuler</button>
+        </label>
+        
+        <label class="repas-option">
+            <input type="checkbox" id="checkSoir">
+            <div class="repas-card">
+                <span class="emoji">🌙</span>
+                <span class="label-text">Le Soir</span>
+            </div>
+        </label>
+    </div>
+</div>
+            <button onclick="ajouterParticipant()" id="btnInscrire" style="background-color: #d35400; color: white; margin-top: 15px; margin-bottom: 5px;">
+            Valider ma présence
+        </button>
+    </div> <p id="msgConvivesOk" style="display:none; color: #27ae60; font-size: 0.85em; text-align: center; font-weight: bold; margin: 10px 0;">
+            ✅ Présence enregistrée
+        </p>
+        
+        <div id="champsPlat">
+            <p style="text-align:center; font-size:0.9em;">Dites-nous ce que vous apportez !</p>
+            <input type="text" id="nouveauPlat" placeholder="Nom du plat">
+            <div class="plat-categories">
+                <label><input type="radio" name="categoriePlat" value="apero" id="apero"> Apéro</label>
+                <label><input type="radio" name="categoriePlat" value="entree" id="entree"> Entrée</label>
+                <label><input type="radio" name="categoriePlat" value="platPrincipal" id="platPrincipal"> Plat</label>
+                <label><input type="radio" name="categoriePlat" value="dessert" id="dessert"> Dessert</label>
+                <label><input type="radio" name="categoriePlat" value="autre" id="autre" checked> Autre</label>
+            </div>
+            <input type="number" id="nombreParts" min="0" placeholder="Nombre de portions">
         </div>
 
+        <button onclick="ajouterPlat()" id="btnAjouter" style="background-color: #27ae60;">Valider</button>
+        <button onclick="annulerEdition()" id="btnAnnuler">Annuler</button>
+    </div>
         <div id="sectionAllergies" style="background: #fdf2f2; padding: 15px; border-radius: 10px; border: 1px solid #e74c3c; margin-top: 20px;">
             <h3 style="margin-top:0; font-size: 1em; color: #c0392b;">🚫 Allergies & Régimes</h3>
             <p style="font-size: 0.8em; color: #666;">Une contrainte alimentaire ? (Végétarien, Sans Gluten, Noix...)</p>
             <input type="text" id="allergieSaisieSeule" placeholder="séparez vos divers points par une virgule">
-            <button onclick="mettreAJourAllergies()" id="btnAllergie" style="background: #e74c3c; color: white; font-size: 0.9em; margin-
+            <button onclick="mettreAJourAllergies()" id="btnAllergie" style="background: #e74c3c; color: white; font-size: 0.9em; margin-top: 5px;">
+                Enregistrer mes préférences
+        </button>
+    </div>
+    <div id="sectionLivreDor" style="background: #fff9e6; padding: 15px; border-radius: 10px; border: 1px solid #feca57;">
+        <h3 style="margin-top:0; font-size: 1em; color: #d35400;">📖 Livre d'Or</h3>
+        <textarea id="commentaireSaisieSeule" placeholder="Un petit mot doux ou une info importante ?" style="height: 80px;"></textarea>
+        <button onclick="ajouterCommentaireDirect()" id="btnCom" style="background: #feca57; color: #2c3e50; font-size: 0.9em; margin-top: 5px; font-weight: bold;">
+            Publier mon message
+        </button>
+    </div>
+</div>  <div class="reponses">
+        <div class="colonnes">
+            <div class="colonne" id="apero-col" style="border-top-color:var(--apero)"><h3>🍹 Apéro <span id="total-apero" class="total-badge">0</span></h3><div id="aperoListe"></div></div>
+            <div class="colonne" id="entree-col" style="border-top-color:var(--entree)"><h3>🥗 Entrée <span id="total-entree" class="total-badge">0</span></h3><div id="entreeListe"></div></div>
+            <div class="colonne" id="plat-col" style="border-top-color:var(--plat)"><h3>🥘 Plat <span id="total-platPrincipal" class="total-badge">0</span></h3><div id="platListe"></div></div>
+            <div class="colonne" id="dessert-col" style="border-top-color:var(--dessert)"><h3>🍰 Dessert <span id="total-dessert" class="total-badge">0</span></h3><div id="dessertListe"></div></div>
+            <div class="colonne" id="autre-col" style="border-top-color:var(--autre)"><h3>📦 Autre <span id="total-autre" class="total-badge">0</span></h3><div id="autreListe"></div></div>
+            <div class="colonne" id="allergie-col" style="border-top-color: #e74c3c;">
+                <h3>🚫 Allergies/Régimes alimentaires <span id="total-allergies" class="total-badge">0</span></h3>
+                <div id="allergieListe"></div>
+            </div>
+        </div>  
+   </div>
+</div>
+
+<div class="container liste-presents" style="
+    background-color: rgba(255, 255, 224, 0.5); /* Cadre global plus transparent */
+    border-radius: 15px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+    padding: 20px; 
+    margin-top: 30px;">
+    
+    <div style="background-color: rgba(255, 255, 224, 0.7); padding: 10px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="text-align:center; color: #660503; margin:0;">👥 Liste des Présents</h2>
+    </div>
+
+    <div id="listePresents"></div>
+</div>
+
+<div class="container livre-dor-section" style="
+    background-color: rgba(255, 255, 224, 0.5); /* Cadre global plus transparent */
+    border-radius: 15px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+    padding: 20px; 
+    margin-top: 30px; 
+    margin-bottom: 50px;">
+    
+    <div style="
+        background-color: rgba(255, 255, 224, 0.7); 
+        padding: 10px; 
+        border-radius: 10px; 
+        margin-bottom: 20px;
+        ">
+        <h2 style="
+            text-align:center; 
+            color: #660503; 
+            margin:0;
+            margin-bottom: 20px;
+            ">📖 Le Livre d'Or</h2>
+    </div>
+
+    <div id="livreDor" 
+        style="
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        text-align: left;
+        margin-top: 20px;
+        "></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
