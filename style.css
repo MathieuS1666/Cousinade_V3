@@ -188,7 +188,7 @@ button {
 .liste-presents {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: left;
     align-items: flex-start; /* Alignement haut sur PC */
     gap: 10px;
 }
@@ -203,7 +203,7 @@ button {
     background: white;
     padding: 20px;
     border-radius: 12px;
-    text-align: center; /* Pour le titre */
+    text-align: left; /* Pour le titre */
 }
 
 .livre-dor-section h2 { 
