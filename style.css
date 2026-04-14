@@ -1,4 +1,6 @@
-/* 1. VARIABLES ET BASE */
+/* ============================================================
+   1. VARIABLES ET BASE 
+   ============================================================ */
 :root {
     --apero: #ff9f43;
     --entree: #1dd1a1;
@@ -18,7 +20,9 @@ body {
     color: #333;
 }
 
-/* 2. HEADER & STATS */
+/* ============================================================
+   2. HEADER & STATS 
+   ============================================================ */
 .header-info {
     background: var(--dark-blue);
     color: white;
@@ -42,7 +46,9 @@ body {
 }
 .stat-item b { color: #feca57; }
 
-/* 3. LAYOUT PRINCIPAL */
+/* ============================================================
+   3. LAYOUT PRINCIPAL 
+   ============================================================ */
 .container {
     display: flex;
     max-width: 1300px;
@@ -63,7 +69,9 @@ body {
 
 .reponses { flex: 3; padding: 20px; }
 
-/* 4. FORMULAIRE & INPUTS */
+/* ============================================================
+   4. FORMULAIRE & INPUTS 
+   ============================================================ */
 input[type="text"], input[type="number"], textarea {
     padding: 12px;
     margin: 8px 0;
@@ -99,7 +107,9 @@ button {
 #btnAjouter { background-color: var(--success); color: white; }
 #btnAnnuler { background-color: #95a5a6; color: white; display: none; margin-top: 5px; }
 
-/* 5. CARTES REPAS & CATÉGORIES (UNIFIÉ) */
+/* ============================================================
+   5. CARTES REPAS & CATÉGORIES 
+   ============================================================ */
 .repas-flex-group, .plat-categories {
     display: flex;
     justify-content: center;
@@ -107,15 +117,10 @@ button {
     margin: 15px 0;
 }
 
-.plat-categories { flex-wrap: nowrap; } /* Forcé sur une ligne sur PC */
+.plat-categories { flex-wrap: nowrap; }
 
-.repas-option {
-    cursor: pointer;
-    flex: 1;
-    max-width: 140px;
-}
-
-.repas-option input { display: none; } /* Cache radios et checkboxes */
+.repas-option { cursor: pointer; flex: 1; max-width: 140px; }
+.repas-option input { display: none; }
 
 .repas-card {
     background: white;
@@ -131,27 +136,20 @@ button {
 .repas-card .emoji { font-size: 1.5em; margin-bottom: 4px; }
 .repas-card .label-text { font-size: 0.9em; font-weight: 600; }
 
-/* États cochés */
 .repas-option input:checked + .repas-card {
     transform: translateY(-3px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-/* Couleurs spécifiques Midi/Soir */
-.repas-flex-group input:checked + .repas-card {
-    border-color: #ff9f43;
-    background-color: #fff4e6;
-}
+.repas-flex-group input:checked + .repas-card { border-color: #ff9f43; background-color: #fff4e6; }
 .repas-flex-group input:checked + .repas-card .label-text { color: #e67e22; }
 
-/* Couleurs spécifiques catégories Plats */
-.plat-categories input:checked + .repas-card {
-    border-color: var(--success);
-    background-color: #ebf9f0;
-}
+.plat-categories input:checked + .repas-card { border-color: var(--success); background-color: #ebf9f0; }
 .plat-categories input:checked + .repas-card .label-text { color: var(--success); }
 
-/* 6. AFFICHAGE DES RÉSULTATS */
+/* ============================================================
+   6. AFFICHAGE DES RÉSULTATS & PRÉSENTS
+   ============================================================ */
 .colonnes { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
 
 .colonne {
@@ -177,26 +175,27 @@ button {
 
 .badge-present {
     display: inline-block;
-    vertical-align: top; /* Alignement pour le mode inline */
     background: #f0f0f0;
     padding: 10px 15px;
     margin: 5px;
     border-radius: 20px;
     font-size: 0.9em;
     border: 1px solid #ddd;
-    height: fit-content; /* Empêche le badge de s'étirer */
+    vertical-align: top;
+    height: fit-content;
 }
 
-/* On ajuste le conteneur pour être sûr */
 .liste-presents {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: flex-start; /* Aligne les badges par leur sommet */
+    align-items: flex-start; /* Alignement haut sur PC */
     gap: 10px;
 }
-.badge-present small { display: block; color: #666; font-size: 0.75em; margin-top: 2px; }
 
+/* ============================================================
+   7. LIVRE D'OR (Titre centré, Messages à gauche)
+   ============================================================ */
 .liste-presents, .livre-dor-section {
     width: 95%;
     max-width: 1260px;
@@ -204,43 +203,16 @@ button {
     background: white;
     padding: 20px;
     border-radius: 12px;
-    text-align: center;
-}
-.liste-presents {
-    /* ... ton code existant ... */
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Centre horizontalement */
-    align-items: flex-start;  /* FORCE l'alignement par le HAUT */
-    gap: 10px;
-}
-/* Le conteneur des messages reste centré sur la page, mais son texte est à gauche */
-#livreDor { 
-    margin-top: 30px; 
-    display: flex; 
-    flex-direction: column; 
-    gap: 15px; 
-    text-align: left; /* Aligne le texte des messages à gauche */
-    max-width: 900px; /* Largeur confortable pour la lecture */
-    margin-left: auto; 
-    margin-right: auto; 
+    text-align: center; /* Pour le titre */
 }
 
-/* On s'assure que le contenu des messages ne soit pas centré par héritage */
-.message-card {
-    background: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    border-left: 5px solid var(--feca57);
-    width: 100%;
-    box-sizing: border-box;
-    text-align: left; /* Sécurité supplémentaire */
-}
-
-/* IMPORTANT : On force le titre à rester centré malgré le text-align left du dessus */
 .livre-dor-section h2 { 
+    position: relative; 
+    margin-bottom: 40px; 
+    padding-bottom: 15px; 
     text-align: center; 
 }
+
 .livre-dor-section h2::after {
     content: "";
     position: absolute;
@@ -249,9 +221,30 @@ button {
     background: linear-gradient(to right, transparent, #feca57, transparent);
 }
 
-#livreDor { margin-top: 30px; display: flex; flex-direction: column; gap: 15px; }
+#livreDor { 
+    margin-top: 30px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px; 
+    text-align: left; /* Aligne le contenu des messages à gauche */
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-/* 8. PETITS ÉLÉMENTS & ANIMATIONS */
+.message-card {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 5px solid var(--feca57);
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+/* ============================================================
+   8. PETITS ÉLÉMENTS & ESPACEMENT
+   ============================================================ */
 .total-badge { float: right; background: #eee; padding: 2px 8px; border-radius: 10px; font-size: 0.7em; color: #555; }
 
 .btn-action {
@@ -260,10 +253,17 @@ button {
 }
 .btn-action:hover { transform: scale(1.2); }
 
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+/* Espacements forcés pour PC et Mobile */
+.inscription-repas-box, #champsPlat, .preferences-alimentaires, .liste-presents, .livre-dor-section {
+    margin-bottom: 30px !important;
+}
 
-/* 9. RESPONSIVE */
+.formulaire > div { margin-bottom: 25px; }
+.formulaire > div:last-child { margin-bottom: 0; }
+
+/* ============================================================
+   9. RESPONSIVE 
+   ============================================================ */
 @media (max-width: 1000px) {
     .container { flex-direction: column; }
     .formulaire { border-right: none; margin-bottom: 20px; position: static !important; }
@@ -272,26 +272,4 @@ button {
 @media (max-width: 600px) {
     .plat-categories { flex-wrap: wrap; justify-content: center; }
     .plat-categories .repas-option { flex: 0 1 30%; }
-}
-/* On cible précisément les gros blocs pour forcer l'espace */
-.inscription-repas-box, 
-#champsPlat, 
-.preferences-alimentaires, 
-.liste-presents, 
-.livre-dor-section {
-    margin-bottom: 30px !important; /* Le !important force le respect de la règle sur mobile */
-}
-
-/* Optionnel : On s'assure que le dernier bloc de la page n'a pas de marge inutile */
-.livre-dor-section {
-    margin-bottom: 50px !important; /* Un peu plus d'espace en bas de page pour le confort */
-}
-/* Espacement entre les blocs du formulaire */
-.formulaire > div {
-    margin-bottom: 25px; /* Espace de 25px sous chaque bloc */
-}
-
-/* On retire la marge du dernier élément pour éviter un trou inutile en bas */
-.formulaire > div:last-child {
-    margin-bottom: 0;
 }
