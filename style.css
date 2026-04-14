@@ -194,7 +194,7 @@ button {
 }
 
 /* ============================================================
-   7. LIVRE D'OR (Titre centré, Messages à gauche)
+   7. LIVRE D'OR (Titre , Messages à gauche)
    ============================================================ */
 .liste-presents, .livre-dor-section {
     width: 95%;
@@ -229,7 +229,7 @@ button {
     gap: 15px; 
     text-align: left; /* Aligne le contenu des messages à gauche */
     max-width: 800px;
-    margin-left: auto;
+    margin-left: 30px;
     margin-right: auto;
 }
 
