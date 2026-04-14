@@ -243,3 +243,12 @@ button {
 .livre-dor-section {
     margin-bottom: 50px !important; /* Un peu plus d'espace en bas de page pour le confort */
 }
+/* Espacement entre les blocs du formulaire */
+.formulaire > div {
+    margin-bottom: 25px; /* Espace de 25px sous chaque bloc */
+}
+
+/* On retire la marge du dernier élément pour éviter un trou inutile en bas */
+.formulaire > div:last-child {
+    margin-bottom: 0;
+}
