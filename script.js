@@ -472,6 +472,7 @@ async function mettreAJourAllergies() {
         if (response.ok) {
         alert("Vos préférences alimentaires ont été mises à jour !");
         await chargerDonnees();
+        }
     } catch (e) {
         alert("Erreur lors de la mise à jour.");
     } finally {
