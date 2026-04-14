@@ -79,6 +79,7 @@ function calculerStatsGlobales() {
 
     // A. CALCUL DES STATS (La barre de progression en haut)
     listeParticipants.forEach(p => {
+        if (String(p.ownerId).toLowerCase() === "traiteur") return; //exclu le traiteur des stats
         const nb = parseFloat(p.convives || 0);
         const estMidi = (p.midi === true || String(p.midi).toUpperCase() === "TRUE" || p.midi === "true");
         const estSoir = (p.soir === true || String(p.soir).toUpperCase() === "TRUE" || p.soir === "true");
