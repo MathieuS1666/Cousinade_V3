@@ -223,8 +223,9 @@ button {
 }
 
 #livreDor { 
-    margin-top: 30px; 
-    display: flex; 
+    margin-top: 15px; 
+    display: flex;
+    vertical-align: top;
     /*flex-direction: column; */ 
     gap: 15px; 
     text-align: left; /* Aligne le contenu des messages à gauche */
