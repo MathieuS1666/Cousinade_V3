@@ -188,22 +188,26 @@ function afficherPlats() {
 // NOUVELLE FONCTION : AFFICHER LE MENU TRAITEUR
 function afficherMenuTraiteur(listePlats) {
     const conteneur = document.getElementById('menuTraiteurSection');
-    if (!conteneur) return;
+    const listeHtml = document.getElementById('menuTraiteurListe');
+    if (!conteneur || !listeHtml) return;
 
     if (listePlats.length === 0) {
-        conteneur.style.display = "none"; // Cache la section si rien n'est rempli
+        conteneur.style.display = "none";
         return;
     }
 
     conteneur.style.display = "block";
-    const listeHtml = document.getElementById('menuTraiteurListe');
     
-    listeHtml.innerHTML = listePlats.map(p => `
-        <div class="menu-item-traiteur">
-            <span class="plat-type-traiteur">${p.categorie.toUpperCase()} :</span>
-            <span class="plat-nom-traiteur">${p.plat}</span>
-        </div>
-    `).join('');
+    listeHtml.innerHTML = listePlats.map(p => {
+        // Sécurité : on affiche la catégorie seulement si elle existe
+        const catLabel = p.categorie ? `[${p.categorie.toUpperCase()}]` : "";
+        return `
+            <div class="menu-item-traiteur" style="padding: 10px; border-bottom: 1px dashed #abdbe3;">
+                <span style="font-weight: bold; color: #2980b9;">${catLabel}</span>
+                <span style="margin-left: 10px; color: #2c3e50;">${p.plat}</span>
+            </div>
+        `;
+    }).join('');
 }
 //===============================================
 // --- 5/ GESTION DES ACTIONS UTILISATEURS ---
