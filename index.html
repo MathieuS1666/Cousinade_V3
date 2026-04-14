@@ -192,29 +192,48 @@
             Publier mon message
         </button>
     </div>
-</div>  <div class="reponses">
-    <div class="traiteur-header">👨‍🍳 Menu du Traiteur</div>
-    <div id="menuTraiteurListe">
-        </div>
-    <p class="menu-info">Le traiteur assure le plat chaud et le fromage.</p>
-</div>
-            <div class="colonne" style="margin-bottom: 20px; text-align: center; border-top-color: var(--dessert); background: rgba(253, 253, 253, 0.9);">
-                <h2 style="text-align:center; color: #660503; margin:0;">🍴 Ce que chacun apporte</h2>
+<div class="reponses">
+    
+    <div id="menuTraiteurSection" class="menu-traiteur" style="display:none; margin: 20px auto; max-width: 800px;">
+        <div class="traiteur-header">👨‍🍳 Menu du Traiteur</div>
+        <div id="menuTraiteurListe">
             </div>
-        <div class="colonnes">
-            <div class="colonne" id="apero-col" style="border-top-color:var(--apero)"><h3>🍹 Apéro <span id="total-apero" class="total-badge">0</span></h3><div id="aperoListe"></div></div>
-            <div class="colonne" id="entree-col" style="border-top-color:var(--entree)"><h3>🥗 Entrée <span id="total-entree" class="total-badge">0</span></h3><div id="entreeListe"></div></div>
-            <div class="colonne" id="plat-col" style="border-top-color:var(--plat)"><h3>🥘 Plat <span id="total-platPrincipal" class="total-badge">0</span></h3><div id="platListe"></div></div>
-            <div class="colonne" id="dessert-col" style="border-top-color:var(--dessert)"><h3>🍰 Dessert <span id="total-dessert" class="total-badge">0</span></h3><div id="dessertListe"></div></div>
-            <div class="colonne" id="autre-col" style="border-top-color:var(--autre)"><h3>📦 Autre <span id="total-autre" class="total-badge">0</span></h3><div id="autreListe"></div></div>
-            <div class="colonne" id="allergie-col" style="border-top-color: #e74c3c;">
-                <h3>🚫 Allergies/Régimes alimentaires <span id="total-allergies" class="total-badge">0</span></h3>
-                <div id="allergieListe"></div>
-            </div>
-        </div>  
-   </div>
-</div>
+        <p class="menu-info">Le traiteur assure le plat chaud et le fromage.</p>
+    </div>
 
+    <div style="margin: 30px 0; text-align: center;">
+        <h2 style="color: #660503; display: inline-block; position: relative; padding-bottom: 10px; border-bottom: 3px solid #feca57;">
+            🍴 Ce que chacun apporte
+        </h2>
+    </div>
+
+    <div class="colonnes">
+        <div class="colonne" id="apero-col" style="border-top-color:var(--apero)">
+            <h3>🍹 Apéro <span id="total-apero" class="total-badge">0</span></h3>
+            <div id="aperoListe"></div>
+        </div>
+        <div class="colonne" id="entree-col" style="border-top-color:var(--entree)">
+            <h3>🥗 Entrée <span id="total-entree" class="total-badge">0</span></h3>
+            <div id="entreeListe"></div>
+        </div>
+        <div class="colonne" id="plat-col" style="border-top-color:var(--plat)">
+            <h3>🥘 Plat <span id="total-platPrincipal" class="total-badge">0</span></h3>
+            <div id="platListe"></div>
+        </div>
+        <div class="colonne" id="dessert-col" style="border-top-color:var(--dessert)">
+            <h3>🍰 Dessert <span id="total-dessert" class="total-badge">0</span></h3>
+            <div id="dessertListe"></div>
+        </div>
+        <div class="colonne" id="autre-col" style="border-top-color:var(--autre)">
+            <h3>📦 Autre <span id="total-autre" class="total-badge">0</span></h3>
+            <div id="autreListe"></div>
+        </div>
+        <div class="colonne" id="allergie-col" style="border-top-color: #e74c3c;">
+            <h3>🚫 Allergies <span id="total-allergies" class="total-badge">0</span></h3>
+            <div id="allergieListe"></div>
+        </div>
+    </div>  
+</div>
 <div class="container liste-presents" style="
     background-color: rgba(255, 255, 224, 0.5); /* Cadre global plus transparent */
     border-radius: 15px; 
