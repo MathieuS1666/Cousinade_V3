@@ -203,19 +203,19 @@ button {
     align-items: flex-start;  /* FORCE l'alignement par le HAUT */
     gap: 10px;
 }
-/*#livreDor {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    text-align: left; 
-    width: 100%;
-    max-width: 800px; 
-    margin-left: auto;
+/* Le conteneur des messages reste centré sur la page, mais son texte est à gauche */
+#livreDor { 
+    margin-top: 30px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px; 
+    text-align: left; /* Aligne le texte des messages à gauche */
+    max-width: 900px; /* Largeur confortable pour la lecture */
+    margin-left: auto; 
     margin-right: auto; 
-}*/
+}
 
-/* On s'assure que chaque carte de message est bien calée */
+/* On s'assure que le contenu des messages ne soit pas centré par héritage */
 .message-card {
     background: #f9f9f9;
     padding: 15px;
@@ -223,9 +223,13 @@ button {
     border-left: 5px solid var(--feca57);
     width: 100%;
     box-sizing: border-box;
+    text-align: left; /* Sécurité supplémentaire */
 }
-/* 7. LIVRE D'OR SPECIALS */
-.livre-dor-section h2 { position: relative; margin-bottom: 40px; padding-bottom: 15px; }
+
+/* IMPORTANT : On force le titre à rester centré malgré le text-align left du dessus */
+.livre-dor-section h2 { 
+    text-align: center; 
+}
 .livre-dor-section h2::after {
     content: "";
     position: absolute;
