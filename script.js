@@ -464,7 +464,7 @@ async function mettreAJourAllergies() {
     btn.innerText = "Mise à jour...";
 
     try {
-        const reponse = await envoyerDonnees({
+        const response = await envoyerDonnees({
             action: "updateAllergies",
             browserId,
             allergies: allergie
