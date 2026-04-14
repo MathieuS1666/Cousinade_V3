@@ -125,7 +125,7 @@ function calculerStatsGlobales() {
     }
 }
 // FONCTION D4AFFICHAGE DES PLATS DANS LES CADRES
-function afficherPlats() {
+/*function afficherPlats() {
     const cats = [['aperoListe', 'apero', '🍹'], ['entreeListe', 'entree', '🥗'], ['platListe', 'platPrincipal', '🥘'], ['dessertListe', 'dessert', '🍰'], ['autreListe', 'autre', '📦']];
     cats.forEach(([elemId, key, icon]) => {
         const list = plats.filter(p => p.categorie === key && p.plat && p.plat !== "null" && p.plat !== "");
@@ -143,6 +143,67 @@ function afficherPlats() {
                     </div>` : ''}
             </div>`).join('') || '<div style="color:gray; font-size:0.8em; padding:5px;">Rien pour le moment</div>';
     });
+}*/
+// MODIFICATION DE LA FONCTION D'AFFICHAGE DES PLATS
+function afficherPlats() {
+    // 1. ON GÈRE LE MENU TRAITEUR D'ABORD
+    const platsDuTraiteur = plats.filter(p => String(p.ownerId).toLowerCase() === "traiteur");
+    afficherMenuTraiteur(platsDuTraiteur);
+
+    // 2. ON GÈRE LES PLATS DES COUSINS (On exclut le traiteur ici)
+    const cats = [
+        ['aperoListe', 'apero', '🍹'], 
+        ['entreeListe', 'entree', '🥗'], 
+        ['platListe', 'platPrincipal', '🥘'], 
+        ['dessertListe', 'dessert', '🍰'], 
+        ['autreListe', 'autre', '📦']
+    ];
+
+    cats.forEach(([elemId, key, icon]) => {
+        // AJOUT DU FILTRE : On prend la catégorie ET on exclut le traiteur
+        const list = plats.filter(p => 
+            p.categorie === key && 
+            p.plat && 
+            p.plat !== "null" && 
+            p.plat !== "" &&
+            String(p.ownerId).toLowerCase() !== "traiteur"
+        );
+
+        const totalCat = list.reduce((s, p) => s + (parseFloat(p.parts) || 0), 0);
+        const badge = document.getElementById(`total-${key}`);
+        if(badge) { badge.innerText = totalCat; badge.style.display = totalCat > 0 ? "inline" : "none"; }
+
+        document.getElementById(elemId).innerHTML = list.map(p => `
+            <div class="plat-item" style="border-left-color: var(--${key})">
+                <span>${icon} <strong>${p.nom}</strong><br>${p.plat} (${p.parts}p)</span>
+                ${p.ownerId === browserId ? `
+                    <div style="display:flex; gap:5px;">
+                        <button onclick="ouvrirModifPlat(${p.id})" class="btn-action">✏️</button>
+                        <button onclick="supprimerPlat(${p.id})" class="btn-action">🗑️</button>
+                    </div>` : ''}
+            </div>`).join('') || '<div style="color:gray; font-size:0.8em; padding:5px;">Rien pour le moment</div>';
+    });
+}
+
+// NOUVELLE FONCTION : AFFICHER LE MENU TRAITEUR
+function afficherMenuTraiteur(listePlats) {
+    const conteneur = document.getElementById('menuTraiteurSection');
+    if (!conteneur) return;
+
+    if (listePlats.length === 0) {
+        conteneur.style.display = "none"; // Cache la section si rien n'est rempli
+        return;
+    }
+
+    conteneur.style.display = "block";
+    const listeHtml = document.getElementById('menuTraiteurListe');
+    
+    listeHtml.innerHTML = listePlats.map(p => `
+        <div class="menu-item-traiteur">
+            <span class="plat-type-traiteur">${p.categorie.toUpperCase()} :</span>
+            <span class="plat-nom-traiteur">${p.plat}</span>
+        </div>
+    `).join('');
 }
 //===============================================
 // --- 5/ GESTION DES ACTIONS UTILISATEURS ---
