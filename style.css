@@ -319,43 +319,38 @@ button {
     padding-bottom: 10px;
 }
 
+/* --- BLOCS PLATS --- */
 .ardoise-item {
-    margin: 20px 0;
-    padding: 15px 0;
-    width: 100%;
+    padding: 20px 0; /* Espace équilibré haut/bas */
     display: flex;
-    flex-direction: column; /* Superpose catégorie et plat */
+    flex-direction: column;
     align-items: center;
+    width: 100%;
+    position: relative; /* Pour positionner le trait par rapport à l'item */
 }
-
 .ardoise-cat {
     color: #48dbfb;
     font-size: 0.8em;
     text-transform: uppercase;
     letter-spacing: 3px;
-    margin-bottom: 5px;
+    margin-bottom: 8px; /* Espace sous la catégorie */
     opacity: 0.8;
 }
 
 .ardoise-plat {
-    font-size: 1.5em;
-    font-weight: 300;
+    font-size: 2em; /* PLATS ÉCRITS EN GROS */
+    font-weight: bold;
     color: #fff;
-   margin-bottom: 5px; /* Espace entre le texte et la ligne du dessous */
-    /* Petit effet de lueur pour simuler la craie */
-    text-shadow: 0 0 5px rgba(255,255,255,0.2);
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* Plus d'impact */
 }
-
-/* Petit séparateur entre les services (entrée, plat, dessert) */
+/* LA LIGNE DE SÉPARATION (Style craie fine) */
 .ardoise-item:not(:last-child):after {
-    content: "~~~";
-    color: #555;
-    margin-top: 15px;
-    letter-spacing: 5px;
-}
-/* La ligne de séparation (sauf après le dernier plat) */
-.ardoise-item:not(:last-child) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Ligne fine et discrète */
-    width: 60%; /* La ligne ne fait pas toute la largeur */
-    margin: 0 auto; /* Centre la ligne */
+    content: ""; /* On enlève les "~~~" */
+    position: absolute;
+    bottom: 0;
+    left: 20%; /* Centre la ligne qui fait 60% de large */
+    right: 20%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
 }
