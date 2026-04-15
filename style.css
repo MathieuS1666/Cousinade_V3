@@ -46,6 +46,51 @@ body {
 }
 .stat-item b { color: #feca57; }
 
+/* --- STYLE DU BLOC INTRODUCTION --- */
+.intro-box {
+    max-width: 1200px; /* Aligné sur la largeur max de ton site */
+    margin: 20px auto; /* Centré avec de l'espace haut/bas */
+    padding: 25px;
+    background-color: rgba(255, 255, 224, 0.8); /* Même jaune clair que le formulaire */
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.intro-box h1 {
+    color: #660503;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 2.2em;
+}
+
+.intro-box p {
+    color: #2c3e50;
+    font-weight: bold;
+    font-size: 1.1em;
+    line-height: 1.5;
+    margin-bottom: 0;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Ajustement pour mobile */
+@media (max-width: 1000px) {
+    .intro-box {
+        margin: 10px; /* Plus de marge sur les côtés sur mobile */
+        padding: 15px;
+    }
+    .intro-box h1 {
+        font-size: 1.6em;
+    }
+    .intro-box p {
+        font-size: 0.95em;
+    }
+}
+
+
 /* ============================================================
    3. LAYOUT PRINCIPAL 
    ============================================================ */
