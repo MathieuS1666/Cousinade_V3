@@ -179,7 +179,7 @@ function afficherMenuTraiteur(listePlats) {
     
     // 1. Plats du traiteur depuis le Sheet
     let htmlFinal = listePlats.map(p => {
-        let emoji = "🥘";
+        let emoji = "🧀";
         if (p.categorie === "entree") emoji = "🥗";
         if (p.categorie === "platPrincipal") emoji = "🥘";
         if (p.categorie === "dessert") emoji = "🍰";
