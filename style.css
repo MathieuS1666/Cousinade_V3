@@ -77,19 +77,29 @@ body {
 }
 
 /* Ajustement pour mobile */
+/* Ajustement pour mobile */
 @media (max-width: 1000px) {
     .intro-box {
-        margin: 10px; /* Plus de marge sur les côtés sur mobile */
-        padding: 15px;
+        margin: 15px 10px; /* Espace autour du bloc */
+        padding: 20px 15px; /* Espace à l'intérieur du cadre */
+        background-color: rgba(255, 255, 224, 0.85); /* On renforce un peu l'opacité (0.85) pour la lisibilité */
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* On s'assure que l'ombre est là pour décoller le bloc du fond */
+        width: auto; /* Force le bloc à s'adapter à la largeur de l'écran */
+        display: block; /* S'assure que le cadre se dessine bien */
     }
+    
     .intro-box h1 {
-        font-size: 1.6em;
+        font-size: 1.5em;
+        margin-bottom: 10px;
     }
+    
     .intro-box p {
-        font-size: 0.95em;
+        font-size: 0.9em;
+        line-height: 1.4;
+        text-align: center; /* Centrage bien propre sur mobile */
     }
 }
-
 
 /* ============================================================
    3. LAYOUT PRINCIPAL 
