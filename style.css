@@ -733,7 +733,7 @@ button {
 }
 
 .ardoise-plat {
-    font-size: 2em; /* PLATS ÉCRITS EN GROS */
+    font-size: 1.4em; /* PLATS ÉCRITS EN GROS */
     font-weight: bold;
     color: #fff;
     line-height: 1.2;
