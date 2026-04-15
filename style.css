@@ -749,31 +749,59 @@ button {
     height: 1px;
     background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
 }
-/* --- FOOTER / COPYRIGHT --- */
-.site-footer {
-    width: 100%;
-    padding: 25px 0; /* Un peu plus de hauteur pour le confort */
+/* ============================================================
+   11. HARMONISATION FINALE & FOOTER OPAQUE
+   ============================================================ */
+
+/* Harmonisation des cadres du bas avec le formulaire */
+.container-section {
+    width: 95%;
+    max-width: 1260px;
+    margin: 30px auto !important;
+    background-color: rgba(255, 255, 224, 0.8) !important; /* Même jaune que le formulaire */
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.section-title-box {
+    background-color: rgba(255, 255, 224, 0.7);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
     text-align: center;
-    background: #1a252f !important; /* Un bleu-noir totalement opaque */
-    color: #ffffff; /* Texte en blanc pur pour un contraste maximum */
-    margin-top: 0; /* On gère l'espace différemment pour éviter les trous */
-    font-size: 0.85em;
-    letter-spacing: 1px;
-    box-shadow: 0 -5px 15px rgba(0,0,0,0.5); /* Ombre portée vers le haut pour bien séparer du fond */
-    position: relative; /* S'assure qu'il passe au-dessus de tout */
-    z-index: 10;
+}
+
+.section-title-box h2 {
+    color: #660503;
+    margin: 0;
+}
+
+/* LE BANDEAU NOIR OPAQUE */
+.site-footer {
+    background-color: #000000 !important; /* Noir total */
+    color: #ffffff !important;
+    padding: 40px 0;
+    text-align: center;
+    width: 100%;
+    margin-top: 50px;
+    border-top: 4px solid #feca57; /* Ligne dorée de finition */
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+    position: relative;
+    z-index: 100;
 }
 
 .site-footer p {
     margin: 0;
-}
-   /* Ajoute une marge de sécurité au bas de la page pour le footer */
-body {
-    display: flex;
-    flex-direction: column;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 0.9em;
 }
 
-/* On pousse le footer tout en bas et on s'assure qu'il prend sa place */
-.container.livre-dor-section {
-    margin-bottom: 60px !important; /* Espace entre le dernier cadre jaune et le footer noir */
+/* Empêche l'image de fond de dépasser sous le noir */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: auto;
 }
