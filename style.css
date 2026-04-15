@@ -798,10 +798,9 @@ button {
     letter-spacing: 2px;
     font-size: 0.9em;
 }
-
-/* Empêche l'image de fond de dépasser sous le noir */
+/* Empêche l'image de fond de dépasser sous le noir 
 html, body {
     margin: 0;
     padding: 0;
     height: auto;
-}
+}*/
