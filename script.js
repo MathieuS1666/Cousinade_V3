@@ -147,6 +147,13 @@ function calculerStatsGlobales() {
                 
                 return `<div style="margin-bottom:5px;">${emoji} ${p.plat}</div>`;
             }).join('');
+         htmlContenu += `
+            <div class="ardoise-item">
+                <span class="ardoise-cat">BOISSONS</span>
+                <span class="ardoise-plat">🍷 Vins</span>
+            </div>`;
+
+        listeArdoise.innerHTML = htmlContenu;
         } else {
             sectionArdoise.style.display = 'none';
         }
