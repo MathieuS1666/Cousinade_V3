@@ -376,16 +376,17 @@ button {
     line-height: 1.2;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* Plus d'impact */
 }
-/* LA LIGNE DE SÉPARATION (Style craie fine) */
+/*
+// LA LIGNE DE SÉPARATION (Style craie fine)
 .ardoise-item:not(:last-child):after {
-    content: ""; /* On enlève les "~~~" */
+    content: ""; // On enlève les "~~~"
     position: absolute;
     bottom: 0;
-    left: 20%; /* Centre la ligne qui fait 60% de large */
+    left: 20%; // Centre la ligne qui fait 60% de large 
     right: 20%;
     height: 1px;
     background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
-}
+}*/
 /* ============================================================
    11. HARMONISATION FINALE & FOOTER OPAQUE
    ============================================================ */
