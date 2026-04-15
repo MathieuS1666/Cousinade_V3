@@ -126,37 +126,43 @@ function calculerStatsGlobales() {
                 </div>`;
         }).join('');
     }
- // --- C. LOGIQUE DE L'ARDOISE TRAITEUR (AJOUT) ---
-    const sectionArdoise = document.getElementById('menuTraiteurSection');
-    const listeArdoise = document.getElementById('menuTraiteurListe');
+// --- C. LOGIQUE DE L'ARDOISE TRAITEUR (AJOUT) ---
+const sectionArdoise = document.getElementById('menuTraiteurSection');
+const listeArdoise = document.getElementById('menuTraiteurListe');
 
-    if (sectionArdoise && listeArdoise) {
-        // On récupère toutes les lignes de plats dont l'ownerId est "traiteur"
-        const platsTraiteur = plats.filter(p => String(p.ownerId).toLowerCase() === "traiteur");
+if (sectionArdoise && listeArdoise) {
+    const platsTraiteur = plats.filter(p => String(p.ownerId).toLowerCase() === "traiteur");
 
-        if (platsTraiteur.length > 0) {
-            sectionArdoise.style.display = 'block';
+    if (platsTraiteur.length > 0) {
+        sectionArdoise.style.display = 'block';
+        
+        // 1. On crée d'abord le texte pour les plats du traiteur
+        let htmlFinal = platsTraiteur.map(p => {
+            let emoji = "🧀";
+            if (p.categorie === "entree") emoji = "🥗";
+            if (p.categorie === "platPrincipal") emoji = "🥘";
+            if (p.categorie === "dessert") emoji = "🍰";
+            if (p.categorie === "apero") emoji = "🍹";
             
-            // On construit la liste ligne par ligne
-            listeArdoise.innerHTML = platsTraiteur.map(p => {
-                let emoji = "🧀";
-                if (p.categorie === "entree") emoji = "🥗";
-                if (p.categorie === "platPrincipal") emoji = "🥘";
-                if (p.categorie === "dessert") emoji = "🍰";
-                if (p.categorie === "apero") emoji = "🍹";
-                
-                return `<div style="margin-bottom:5px;">${emoji} ${p.plat}</div>`;
-            }).join('');
-         htmlContenu += `
+            // On utilise les classes CSS "ardoise" pour le look craie
+            return `<div class="ardoise-item">
+                        <span class="ardoise-cat">${p.categorie.toUpperCase()}</span>
+                        <span class="ardoise-plat">${emoji} ${p.plat}</span>
+                    </div>`;
+        }).join('');
+
+        // 2. On AJOUTE les vins à la suite du texte
+        htmlFinal += `
             <div class="ardoise-item">
                 <span class="ardoise-cat">BOISSONS</span>
                 <span class="ardoise-plat">🍷 Vins</span>
             </div>`;
 
-        listeArdoise.innerHTML = htmlContenu;
-        } else {
-            sectionArdoise.style.display = 'none';
-        }
+        // 3. On injecte le TOUT d'un coup dans la page
+        listeArdoise.innerHTML = htmlFinal;
+
+    } else {
+        sectionArdoise.style.display = 'none';
     }
 }
 // FONCTION D4AFFICHAGE DES PLATS DANS LES CADRES
