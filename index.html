@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+<!-- modales-->
 <div id="modalConvives" style="display:none; position:fixed; z-index:2000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.7); animation: fadeIn 0.3s;">
     <div style="background:white; margin:15% auto; padding:20px; width:90%; max-width:350px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.5); animation: slideUp 0.3s;">
         <h3 style="margin-top:0;">👥 <span id="titreModalConvives"></span></h3>
@@ -67,6 +67,8 @@
         </div>
     </div>
 </div>
+    <!-- fin des modales -->
+    <!-- bandeau des stats -->
 <div class="header-info">
     <div id="countdown">Cousinade 2026 !</div>
     <div class="stats-bar">
@@ -80,15 +82,17 @@
         <button onclick="ouvrirAdmin()" style="background:#444; color:white; padding:5px 12px; font-size:0.85em; border-radius:15px; flex:none; width:auto;">⚙️ Admin</button>
     </div>
 </div>
-
+<!-- fin du bandeau de stats -->
+<div class="intro-box">
+    <h1>Cousinade Bob 2026</h1>
+    <p>Afin de s'organiser au mieux pour cette journée, merci de remplir ce formulaire. Vous trouverez sur cette page le menu du traiteur pour le midi et la liste de ce que chacun apporte. N'hésitez pas à consulter toute la page avant de saisir vos informations.</p>
+</div>
 <div class="container">
     <div class="formulaire" id="form-scroll" style="
         background-color: rgba(255, 255, 224, 0.7);
         border-radius: 15px; 
         box-shadow: 0 4px 15px rgba(0,0,0,0.1); ">
-    <h1 style="text-align:center; color: #660503;">Cousinade 2026</h1>
-        <p style="text-align:center;font-weight:bold; margin-bottom: 10px;">Afin de s'organiser au mieux pour cette journée, merci de remplir ce formulaire. Vous trouverez sur cette page le menu du traiteur pour le midi et la liste de ce que chacun apporte. N'hésitez pas à consulter toute la page avant de saisir vos informations. </p>
-    <p style="text-align:center;font-weight:bold; color: #2c3e50; margin-bottom: 10px;">Entrez votre/vos prénom(s)</p>
+     <p style="text-align:center;font-weight:bold; color: #2c3e50; margin-bottom: 10px;">Entrez votre/vos prénom(s)</p>
     
     <input type="text" id="nomPersonne" placeholder="Votre prénom">
 
