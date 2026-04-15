@@ -86,7 +86,7 @@ function calculerStatsGlobales() {
         if (estMidi) stats.midi += nb;
         if (estSoir) stats.soir += nb;
     });
-
+// B. CALCUL DES PLATS COUSINS
     plats.forEach(p => {
         if (String(p.ownerId).toLowerCase() === "traiteur") return;
         if (p.plat && p.plat !== "null" && p.plat !== "") {
@@ -126,45 +126,8 @@ function calculerStatsGlobales() {
                 </div>`;
         }).join('');
     }
-// --- C. LOGIQUE DE L'ARDOISE TRAITEUR (AJOUT) ---
-/*const sectionArdoise = document.getElementById('menuTraiteurSection');
-const listeArdoise = document.getElementById('menuTraiteurListe');
+ } // <--- Fin de calculerStatsGlobales propre
 
-if (sectionArdoise && listeArdoise) {
-    const platsTraiteur = plats.filter(p => String(p.ownerId).toLowerCase() === "traiteur");
-
-    if (platsTraiteur.length > 0) {
-        sectionArdoise.style.display = 'block';
-        
-        // 1. On crée d'abord le texte pour les plats du traiteur
-        let htmlFinal = platsTraiteur.map(p => {
-            let emoji = "🧀";
-            if (p.categorie === "entree") emoji = "🥗";
-            if (p.categorie === "platPrincipal") emoji = "🥘";
-            if (p.categorie === "dessert") emoji = "🍰";
-            if (p.categorie === "apero") emoji = "🍹";
-            
-            // On utilise les classes CSS "ardoise" pour le look craie
-            return `<div class="ardoise-item">
-                        <span class="ardoise-cat">${p.categorie.toUpperCase()}</span>
-                        <span class="ardoise-plat">${emoji} ${p.plat}</span>
-                    </div>`;
-        }).join('');
-
-        // 2. On AJOUTE les vins à la suite du texte
-        htmlFinal += `
-            <div class="ardoise-item">
-                <span class="ardoise-cat">BOISSONS</span>
-                <span class="ardoise-plat">🍷 Vins</span>
-            </div>`;
-
-        // 3. On injecte le TOUT d'un coup dans la page
-        listeArdoise.innerHTML = htmlFinal;
-
-    } else {
-        sectionArdoise.style.display = 'none';
-    }
-}*/
 // FONCTION D'AFFICHAGE DES PLATS
 function afficherPlats() {
     // 1. ON GÈRE LE MENU TRAITEUR D'ABORD
@@ -205,24 +168,18 @@ function afficherPlats() {
             </div>`).join('') || '<div style="color:gray; font-size:0.8em; padding:5px;">Rien pour le moment</div>';
     });
 }
-
-// NOUVELLE FONCTION : AFFICHER LE MENU TRAITEUR (VERSION ARDOISE)
+// FONCTION MENU TRAITEUR (LOOK ARDOISE)
 function afficherMenuTraiteur(listePlats) {
     const conteneur = document.getElementById('menuTraiteurSection');
     const listeHtml = document.getElementById('menuTraiteurListe');
     if (!conteneur || !listeHtml) return;
 
-    // Si pas de plats traiteur, on cache tout
-    if (listePlats.length === 0) {
-        conteneur.style.display = "none";
-        return;
-    }
-
+    // Toujours afficher le conteneur car on a au moins le vin
     conteneur.style.display = "block";
     
-    // 1. On génère les plats dynamiques (ceux de la base de données)
+    // 1. Plats du traiteur depuis le Sheet
     let htmlFinal = listePlats.map(p => {
-        let emoji = "🥘"; // Emoji par défaut
+        let emoji = "🥘";
         if (p.categorie === "entree") emoji = "🥗";
         if (p.categorie === "platPrincipal") emoji = "🥘";
         if (p.categorie === "dessert") emoji = "🍰";
@@ -230,19 +187,18 @@ function afficherMenuTraiteur(listePlats) {
         
         return `
             <div class="ardoise-item">
-                <span class="ardoise-cat">${p.categorie ? p.categorie.toUpperCase() : "PLAT"}</span>
+                <span class="ardoise-cat">${p.categorie ? p.categorie.toUpperCase() : "TRAITEUR"}</span>
                 <span class="ardoise-plat">${emoji} ${p.plat}</span>
             </div>`;
     }).join('');
 
-    // 2. On ajoute la ligne fixe pour les VINS
+    // 2. L'Ajout fixe des Vins
     htmlFinal += `
         <div class="ardoise-item">
             <span class="ardoise-cat">BOISSONS</span>
             <span class="ardoise-plat">🍷 Vins compris</span>
         </div>`;
 
-    // 3. On injecte le tout dans l'ardoise
     listeHtml.innerHTML = htmlFinal;
 }
 //===============================================
