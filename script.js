@@ -7,7 +7,7 @@
 
  // Les constantes : URL de l'API (Google Script) et Date de l'événement.
  const API_URL = "https://script.google.com/macros/s/AKfycbxkRhcfFKMPlLmCFAItNSr0g1G8vz4qygXet4u9vMa8NKSOfB9epUyzhwZMdcKSDlyM/exec";
-const DATE_COUSINADE = new Date("2026-05-09T12:00:00");
+const DATE_COUSINADE = new Date("2026-05-09T01:00:00");
 
 //Les variables de stockage : Tableaux vides pour les plats, participants et commentaires.
 let plats = [];
@@ -180,7 +180,7 @@ function afficherMenuTraiteur(listePlats) {
     // 1. Plats du traiteur depuis le Sheet
     let htmlFinal = listePlats.map(p => {
         let emoji = "🧀";
-        if (p.categorie === "entree") emoji = "🥗";
+        if (p.categorie === "entree") emoji = "🥂";
         if (p.categorie === "platPrincipal") emoji = "🥘";
         if (p.categorie === "dessert") emoji = "🍰";
         if (p.categorie === "apero") emoji = "🍹";
