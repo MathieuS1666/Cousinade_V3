@@ -33,10 +33,21 @@ body {
     top: 0;
     z-index: 1000;
 }
+#countdown { 
+   font-weight: bold;
+   color: #feca57;
+   font-size: 1.2em; 
+   margin-bottom: 10px; 
+}
 
-#countdown { font-weight: bold; color: #feca57; font-size: 1.2em; margin-bottom: 10px; }
-
-.stats-bar { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; font-size: 0.85em; align-items: center; }
+.stats-bar { 
+   display: flex;
+   justify-content: center; 
+   gap: 15px; 
+   flex-wrap: wrap; 
+   font-size: 0.85em; 
+   align-items: center; 
+}
 
 .stat-item {
     background: rgba(255,255,255,0.1);
@@ -44,18 +55,44 @@ body {
     border-radius: 20px;
     border: 1px solid rgba(255,255,255,0.2);
 }
-.stat-item b { color: #feca57; }
 
+.stat-item b { 
+   color: #feca57; 
+}
+
+/* --- AJUSTEMENT MOBILE --- */
+@media (max-width: 1000px) {
+    .header-info {
+        /* Sur mobile, il devient "static" : il reste en haut de la page 
+           et disparaît quand on descend (scroll) */
+        position: static; 
+        padding: 10px 5px;
+    }
+
+    #countdown {
+        font-size: 1em;
+        margin-bottom: 5px;
+    }
+
+    .stats-bar {
+        gap: 8px; /* On resserre les badges sur mobile */
+    }
+
+    .stat-item {
+        font-size: 0.75em;
+        padding: 3px 8px;
+    }
+}
 /* --- STYLE DU BLOC INTRODUCTION --- */
 .intro-box {
-    max-width: 1200px; /* Aligné sur la largeur max de ton site */
+    max-width: 1260px; /* Aligné sur la largeur max de ton site */
     margin: 20px auto; /* Centré avec de l'espace haut/bas */
     padding: 25px;
     background-color: rgba(255, 255, 224, 0.8); /* Même jaune clair que le formulaire */
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     text-align: center;
-    box-sizing: border-box;
+    box-sizing: content-box;
 }
 
 .intro-box h1 {
@@ -201,19 +238,19 @@ button {
     border-radius: 8px;
     border: 1px solid #eee;
     border-top: 5px solid #ccc; /* La couleur sera surchargée par l'inline style HTML */
-    height: fit-content;
+    /*height: fit-content;*/
 }
 
 .plat-item {
     padding: 10px;
-    background: white;
+    background: rgba(255, 255, 180, 0.6);
     margin: 8px 0;
     border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 5px rgba(0,0,0,0.05);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.82em;
+    font-size: 1.0em;
     border-left: 4px solid var(--success);
 }
 
@@ -223,7 +260,7 @@ button {
     padding: 10px 15px;
     margin: 5px;
     border-radius: 20px;
-    font-size: 0.9em;
+    font-size: 1.0em;
     border: 1px solid #ddd;
     vertical-align: top;
     height: fit-content;
@@ -241,8 +278,8 @@ button {
    7. LIVRE D'OR (Titre , Messages à gauche)
    ============================================================ */
 .liste-presents, .livre-dor-section {
-    width: 95%;
-    max-width: 1260px;
+    width: 100%;
+    /*max-width: 1260px;*/
     margin: 30px auto !important;
     background: white;
     padding: 30px;
@@ -334,10 +371,10 @@ button {
     border-radius: 12px;
     border: 10px solid #4e342e; /* Cadre bois plus sombre */
     box-shadow: 0 10px 30px rgba(0,0,0,0.4), inset 0 0 50px rgba(0,0,0,0.5);
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     font-family: 'Segoe UI', cursive; /* Tu peux mettre 'Brush Script MT' si tu l'as */
     text-align: center; /* Centrage global */
-    width: 100%;
+    width: auto; /*100%;*/
     box-sizing: border-box;
 }
 
