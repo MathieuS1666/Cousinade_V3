@@ -194,7 +194,7 @@ function afficherMenuTraiteur(listePlats) {
     // 2. L'Ajout fixe des Vins
     htmlFinal += `
         <div class="ardoise-item">
-            <span class="ardoise-plat">🍷 Vins compris</span>
+            <span class="ardoise-plat">🍷 Séléction de Vins</span>
         </div>`;
 
     listeHtml.innerHTML = htmlFinal;
