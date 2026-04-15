@@ -296,6 +296,7 @@ button {
 /* --- STYLE ARDOISE TRAITEUR AMÉLIORÉ --- */
 .ardoise-traiteur {
     background: #1e1e1e; /* Fond tableau noir */
+    background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 80%);
     color: #fdfdfd;
     padding: 30px;
     border-radius: 12px;
