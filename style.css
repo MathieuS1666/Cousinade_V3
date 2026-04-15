@@ -749,3 +749,31 @@ button {
     height: 1px;
     background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
 }
+/* --- FOOTER / COPYRIGHT --- */
+.site-footer {
+    width: 100%;
+    padding: 25px 0; /* Un peu plus de hauteur pour le confort */
+    text-align: center;
+    background: #1a252f !important; /* Un bleu-noir totalement opaque */
+    color: #ffffff; /* Texte en blanc pur pour un contraste maximum */
+    margin-top: 0; /* On gère l'espace différemment pour éviter les trous */
+    font-size: 0.85em;
+    letter-spacing: 1px;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.5); /* Ombre portée vers le haut pour bien séparer du fond */
+    position: relative; /* S'assure qu'il passe au-dessus de tout */
+    z-index: 10;
+}
+
+.site-footer p {
+    margin: 0;
+}
+   /* Ajoute une marge de sécurité au bas de la page pour le footer */
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* On pousse le footer tout en bas et on s'assure qu'il prend sa place */
+.container.livre-dor-section {
+    margin-bottom: 60px !important; /* Espace entre le dernier cadre jaune et le footer noir */
+}
