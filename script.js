@@ -139,7 +139,7 @@ function calculerStatsGlobales() {
             
             // On construit la liste ligne par ligne
             listeArdoise.innerHTML = platsTraiteur.map(p => {
-                let emoji = "✨";
+                let emoji = "🧀";
                 if (p.categorie === "entree") emoji = "🥗";
                 if (p.categorie === "platPrincipal") emoji = "🥘";
                 if (p.categorie === "dessert") emoji = "🍰";
