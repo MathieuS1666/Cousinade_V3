@@ -334,3 +334,47 @@ button {
 .plat-nom-traiteur {
     color: #ffffff;
 }
+/* --- STYLE ARDOISE TRAITEUR --- */
+.ardoise-traiteur {
+    background: #1e1e1e; /* Fond noir tableau */
+    color: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    border: 8px solid #5d4037; /* Cadre en bois */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    margin-bottom: 30px;
+    font-family: 'Comic Sans MS', 'Marker Felt', cursive; /* Police type écriture main */
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.ardoise-traiteur h3 {
+    text-align: center;
+    color: #feca57;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 0;
+    border-bottom: 2px dashed #555;
+    padding-bottom: 10px;
+}
+
+.ardoise-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #333;
+}
+
+.ardoise-cat {
+    color: #48dbfb;
+    font-weight: bold;
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
+
+.ardoise-plat {
+    flex: 1;
+    text-align: right;
+    font-size: 1.1em;
+}
