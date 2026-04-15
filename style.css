@@ -353,7 +353,7 @@ button {
 
 /* --- BLOCS PLATS --- */
 .ardoise-item {
-    padding: 20px 0; /* Espace équilibré haut/bas */
+    padding: 10px 0; /* Espace équilibré haut/bas */
     display: flex;
     flex-direction: column;
     align-items: center;
