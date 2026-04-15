@@ -187,7 +187,6 @@ function afficherMenuTraiteur(listePlats) {
         
         return `
             <div class="ardoise-item">
-                <span class="ardoise-cat">${p.categorie ? p.categorie.toUpperCase() : "TRAITEUR"}</span>
                 <span class="ardoise-plat">${emoji} ${p.plat}</span>
             </div>`;
     }).join('');
@@ -195,7 +194,6 @@ function afficherMenuTraiteur(listePlats) {
     // 2. L'Ajout fixe des Vins
     htmlFinal += `
         <div class="ardoise-item">
-            <span class="ardoise-cat">BOISSONS</span>
             <span class="ardoise-plat">🍷 Vins compris</span>
         </div>`;
 
