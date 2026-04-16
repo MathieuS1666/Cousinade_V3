@@ -1,5 +1,5 @@
 # Cousinade_V3
-
+Adresse de la page web : https://mathieus1666.github.io/Cousinade_V3/
 Cousinade Bob 2026
 
 Cette application est une plateforme collaborative de gestion d'événement conçue pour organiser une réunion familiale. Elle permet de centraliser les inscriptions et la logistique du buffet sans nécessiter de serveur complexe, en utilisant Google Sheets comme base de données.
