@@ -616,3 +616,20 @@ function ouvrirAdmin() {
         alert("Mot de passe incorrect.");
     }
 }
+function basculerFAQ(afficher) {
+    const mainContent = document.querySelectorAll('.intro-box, .container, .liste-presents, .livre-dor-section');
+    const faqSection = document.getElementById('pageFAQ');
+
+    if (afficher) {
+        // On cache tout le contenu principal
+        mainContent.forEach(el => el.style.display = 'none');
+        // On affiche la FAQ
+        faqSection.style.display = 'block';
+        // On remonte en haut de page
+        window.scrollTo(0, 0);
+    } else {
+        // On réaffiche tout
+        // Note: pour le .container, on vérifie si c'est mobile ou PC (flex ou block)
+        location.reload(); // La solution la plus simple pour réinitialiser l'affichage propre
+    }
+}
