@@ -194,7 +194,7 @@ function afficherMenuTraiteur(listePlats) {
     // 2. L'Ajout fixe des Vins
     htmlFinal += `
         <div class="ardoise-item">
-            <span class="ardoise-plat">🍷 La Cave du Sommelier : Sélection de flacons choisis en accord avec les saveurs du terroir</span>
+            <span class="ardoise-plat">🍷 Vins</span>
         </div>`;
 
     listeHtml.innerHTML = htmlFinal;
@@ -557,9 +557,12 @@ function afficherAllergies() {
         style="border-left: 4px solid #e74c3c;
         background: rgba(155, 0, 0, 0.2);
         margin-bottom: 8px;
-        padding: 10px;">
-            <div style="font-weight: bold; color: #c0392b; font-size: 1.0em;">🚫 ${p.nom}</div>
-            <div style="font-size: 1.0em; color: #333;">${p.allergies}</div>
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;">
+            <div style="font-weight: bold; color: #c0392b; font-size: 1.0;">${p.nom}</div>
+            <div style="font-size: 1.0em; color: #333;">🚫 ${p.allergies}</div>
         </div>
     `).join('');
 }
