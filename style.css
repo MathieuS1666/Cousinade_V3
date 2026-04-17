@@ -227,9 +227,24 @@ button {
    ============================================================ */
 .colonnes { 
    display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+   /* Par défaut (Mobile) : 1 seule colonne */
+   grid-template-columns: 1fr; 
    gap: 15px; 
    width: 100%;
+}
+
+/* Tablette (Optionnel) : 2 colonnes */
+@media (min-width: 600px) {
+    .colonnes {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* PC (Ecran large) : On force exactement 3 colonnes */
+@media (min-width: 1000px) {
+    .colonnes {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 .colonne {
