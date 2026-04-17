@@ -288,7 +288,29 @@ button {
     align-items: flex-start; /* Alignement haut sur PC */
     gap: 10px;
 }
+/* Harmonisation structurelle des allergies */
+#allergieListe .allergie-item, 
+#allergieListe > div {
+    display: flex;
+    flex-direction: column; /* Force l'alignement vertical : Nom en haut, allergie en bas */
+    align-items: flex-start;
+    padding: 10px;
+    background: rgba(255, 235, 235, 0.7);
+    margin: 8px 0;
+    border-radius: 6px;
+    border-left: 4px solid #e74c3c;
+    box-shadow: 0 4px 5px rgba(0,0,0,0.05);
+    font-size: 1.0em;
+}
 
+/* Style spécifique pour le nom de la personne dans l'allergie */
+#allergieListe b, 
+#allergieListe strong {
+    color: #c0392b;
+    margin-bottom: 4px; /* Espace entre le nom et l'allergie */
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
 /* ============================================================
    7. LIVRE D'OR (Titre , Messages à gauche)
    ============================================================ */
