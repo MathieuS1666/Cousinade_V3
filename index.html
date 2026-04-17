@@ -273,8 +273,36 @@
 </div>
 
 <script src="script.js"></script>
+
+<div id="pageFAQ" class="container-section" style="display:none; min-height: 50vh;">
+    <div class="section-title-box">
+        <h2>❓ Questions Fréquentes (FAQ)</h2>
+    </div>
+    
+    <div class="faq-container" style="text-align: left; max-width: 800px; margin: 0 auto;">
+        <div class="faq-item" style="margin-bottom: 20px;">
+            <h3 style="color: #d35400;">📍 Où ça se passe exactement ?</h3>
+            <p>Le rendez-vous est fixé à [Ton Adresse] à partir de 11h00.</p>
+        </div>
+
+        <div class="faq-item" style="margin-bottom: 20px;">
+            <h3 style="color: #d35400;">🚗 Où se garer ?</h3>
+            <p>Un parking est disponible devant la salle, merci de privilégier le covoiturage !</p>
+        </div>
+
+        <div class="faq-item" style="margin-bottom: 20px;">
+            <h3 style="color: #d35400;">🛏️ Peut-on dormir sur place ?</h3>
+            <p>Oui, il y a de la place pour quelques tentes ou matelas. Contacte l'organisateur.</p>
+        </div>
+
+        <button onclick="basculerFAQ(false)" style="background: #95a5a6; width: auto; margin: 30px auto; padding: 10px 20px;">⬅️ Retour à l'accueil</button>
+    </div>
+</div>    
   <footer class="site-footer">
     <p> © MS2026 V2.67 | Fait avec ❤️ pour la Cousinade</p>
+      <p style="margin-top: 10px;">
+        <a href="javascript:void(0)" onclick="basculerFAQ(true)" style="color: #feca57; text-decoration: underline; font-size: 0.9em;">Besoin d'aide ? Consultez la FAQ</a>
+    </p>
 </footer>  
 </body>
 </html>
