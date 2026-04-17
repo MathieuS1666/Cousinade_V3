@@ -558,8 +558,8 @@ function afficherAllergies() {
         background: rgba(155, 0, 0, 0.2);
         margin-bottom: 8px;
         padding: 10px;">
-            <div style="font-weight: bold; color: #c0392b; font-size: 0.9em;">${p.nom}</div>
-            <div style="font-size: 0.85em; color: #333;">${p.allergies}</div>
+            <div style="font-weight: bold; color: #c0392b; font-size: 1.0em;">${p.nom}</div>
+            <div style="font-size: 1.0em; color: #333;">${p.allergies}</div>
         </div>
     `).join('');
 }
